@@ -17,6 +17,7 @@
 
 (package
  (name nittany_market)
+ (allow_empty)
  (synopsis "A short synopsis")
  (description "A longer description")
  (depends ocaml dune)

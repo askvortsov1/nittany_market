@@ -1,6 +1,13 @@
 (executable
- (public_name nittany_market)
  (name init_db)
- (libraries nittany_market base cmdliner)
+ (modules init_db)
+ (libraries nittany_market base cmdliner dream)
+ (preprocess
+  (pps ppx_inline_test)))
+
+(executable
+ (name run)
+ (modules run)
+ (libraries nittany_market base cmdliner dream)
  (preprocess
   (pps ppx_inline_test)))
