@@ -1,0 +1,6 @@
+(library
+ (inline_tests)
+ (name nittany_market)
+ (libraries base cmdliner)
+ (preprocess
+  (pps ppx_inline_test)))

@@ -1,0 +1,6 @@
+(executable
+ (public_name nittany_market)
+ (name init_db)
+ (libraries nittany_market base cmdliner)
+ (preprocess
+  (pps ppx_inline_test)))
