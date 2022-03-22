@@ -1,0 +1,5 @@
+(library
+ (name models)
+ (public_name nittany_market.models)
+ (libraries base cmdliner caqti caqti-lwt csvfields ppx_deriving_yojson.runtime)
+ (preprocess (pps lwt_ppx ppx_csv_conv ppx_deriving_yojson)))

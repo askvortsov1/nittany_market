@@ -1,13 +1,6 @@
 (executable
- (name init_db)
- (modules init_db)
- (libraries nittany_market base cmdliner dream)
+ (name nmcli)
+ (modules nmcli)
+ (libraries nittany_market base dream cmdliner caqti-driver-sqlite3)
  (preprocess
-  (pps ppx_inline_test)))
-
-(executable
- (name run)
- (modules run)
- (libraries nittany_market base cmdliner dream)
- (preprocess
-  (pps ppx_inline_test)))
+  (pps ppx_inline_test lwt_ppx)))
