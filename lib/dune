@@ -1,4 +1,4 @@
 (library
  (name nittany_market)
- (libraries base cmdliner models views csvfields)
+ (libraries base cmdliner models views csvfields dream argon2)
  (preprocess (pps lwt_ppx)))
