@@ -25,8 +25,11 @@ let run_caqti callback =
 (* Lib Wrappers *)
 
 let start () =
-  Dream.run @@ Dream.logger @@ Dream.sql_pool sql_uri @@ Dream.sql_sessions
-  @@ Dream.router [ Dream.get "/" (fun _ -> Dream.html "hello world") ]
+  Dream.run
+  @@ Dream.logger
+  @@ Dream.sql_pool sql_uri
+  @@ Dream.sql_sessions
+  @@ Dream.router Nittany_market.Router.routes
 
 let migrate_up () =
   Lwt_main.run (run_caqti Nittany_market.Migrations.migrate_up)

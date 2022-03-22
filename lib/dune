@@ -1,4 +1,4 @@
 (library
  (name nittany_market)
- (libraries base cmdliner models csvfields)
+ (libraries base cmdliner models views csvfields)
  (preprocess (pps lwt_ppx)))

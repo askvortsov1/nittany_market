@@ -20,18 +20,29 @@ let migrations =
       up =
         mig_exec
           {|
+CREATE TABLE dream_session (
+  id TEXT PRIMARY KEY,
+  label TEXT NOT NULL,
+  expires_at REAL NOT NULL,
+  payload TEXT NOT NULL
+);|};
+      down = mig_exec {|DROP TABLE dream_session;|};
+    };
+    {
+      up =
+        mig_exec
+          {|
 CREATE TABLE user (
   email TEXT,
   password TEXT,
   PRIMARY KEY (email)
 );|};
-      down = mig_exec {|DROP TABLE user|};
+      down = mig_exec {|DROP TABLE user;|};
     };
   ]
 
-let migrate_up (module Db: DB) =
+let migrate_up (module Db : DB) =
   Lwt_list.iter_s (fun mig -> mig.up (module Db)) migrations
 
-
-let migrate_down (module Db: DB) =
+let migrate_down (module Db : DB) =
   Lwt_list.iter_s (fun mig -> mig.down (module Db)) (List.rev migrations)
