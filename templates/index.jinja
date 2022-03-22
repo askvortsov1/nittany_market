@@ -1,0 +1,15 @@
+{% if user_id %}
+    Logged in as {{ user_id }}
+    <form action="/logout" method="post">
+        {{ csrf_tag|safe }}
+        <button type="submit">Logout</button>
+    </form>
+{% else %}
+    Not logged in
+    <form action="/login" method="post">
+        {{ csrf_tag|safe }}
+        <input name="email">
+        <input name="password">
+        <button type="submit">Login</button>
+    </form
+{% endif %}
