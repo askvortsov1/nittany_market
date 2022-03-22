@@ -16,7 +16,7 @@ let load_funcs =
   [
     UserCsv.load
       ~transform:(fun u ->
-        { email = u.email; password = Hasher.hash u.password })
+        { email = u.email; password = Auth.Hasher.hash u.password })
       "data/Users.csv";
   ]
 

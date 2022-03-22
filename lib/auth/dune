@@ -1,0 +1,4 @@
+(library
+ (name auth)
+ (public_name nittany_market.auth)
+ (libraries dream argon2))
