@@ -1,0 +1,2 @@
+dune build
+./_build/default/bin/nmcli.exe "$@"
