@@ -33,11 +33,22 @@ CREATE TABLE dream_session (
         mig_exec
           {|
 CREATE TABLE user (
-  email TEXT,
-  password TEXT,
-  PRIMARY KEY (email)
+  email TEXT PRIMARY KEY,
+  password TEXT
 );|};
       down = mig_exec {|DROP TABLE user;|};
+    };
+    {
+      up =
+        mig_exec
+          {|
+CREATE TABLE address (
+  address_id TEXT PRIMARY KEY,
+  zipcode TEXT,
+  street_num INTEGER,
+  street_name TEXT
+);|};
+      down = mig_exec {|DROP TABLE address;|};
     };
   ]
 
