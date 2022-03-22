@@ -2,15 +2,16 @@ module LoadCsv (M : Models.Model_intf.Model) = struct
   let load ?(transform = fun x -> x) file_name
       (module Db : Caqti_lwt.CONNECTION) =
     let module CsvUtil = Csvfields.Csv.Record (M) in
+    let module Repo = Models.Model_intf.Make_ModelRepository(M) in
     let data = CsvUtil.csv_load file_name in
     Lwt_list.iter_s
       (fun raw_entry ->
         let entry = transform raw_entry in
-        M.add entry (module Db))
+        Repo.add entry (module Db))
       data
 end
 
-module UserCsv = LoadCsv (Models.User)
+module UserCsv = LoadCsv (Models.User.User)
 
 let load_funcs =
   [

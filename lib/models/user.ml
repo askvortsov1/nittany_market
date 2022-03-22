@@ -1,26 +1,16 @@
-module type DB = Caqti_lwt.CONNECTION
+module User = struct
 
-module R = Caqti_request
-module T = Caqti_type
+  type t = { email : string; password : string }
+  [@@deriving yojson, fields, csv]
+  type key = string
 
-type key = string
-type t = { email : string; password : string } [@@deriving yojson, fields, csv]
+  type fields = string * string
+  let table_name = "user"
+  let key_field = "email"
+  let caqti_key_type = Caqti_type.string
+  let caqti_types = Caqti_type.(tup2 string string)
+  let caqtup_of_t u = (u.email, u.password)
+  let t_of_caqtup (email, password) = { email; password }
+end
 
-let add =
-  let query =
-    R.exec (T.tup2 T.string T.string) "INSERT INTO user VALUES (?, ?)"
-  in
-  fun u (module Db : DB) ->
-    let%lwt unit_or_error = Db.exec query (u.email, u.password) in
-    Caqti_lwt.or_fail unit_or_error
-
-let get email =
-  let query =
-    R.find_opt T.string
-      T.(tup2 string string)
-      "SELECT * FROM user WHERE email=?"
-  in
-  fun (module Db : DB) ->
-    let%lwt unit_or_error = Db.find_opt query email in
-    let raw = Caqti_lwt.or_fail unit_or_error in
-    Lwt.map (Option.map (fun (email, password) -> { email; password })) raw
+module UserRepository = Model_intf.Make_ModelRepository(User)
