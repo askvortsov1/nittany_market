@@ -23,8 +23,4 @@ let get email =
   fun (module Db : DB) ->
     let%lwt unit_or_error = Db.find_opt query email in
     let raw = Caqti_lwt.or_fail unit_or_error in
-    Lwt.bind raw (fun u ->
-        Lwt.return
-          (match u with
-          | Some (email, password) -> Some { email; password }
-          | None -> None))
+    Lwt.map (Option.map (fun (email, password) -> { email; password })) raw
