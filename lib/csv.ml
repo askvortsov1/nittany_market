@@ -22,6 +22,7 @@ module CreditCardCsv = LoadCsv (Models.Creditcard.CreditCard)
 module RatingCsv = LoadCsv (Models.Rating.Rating)
 module ProductListingCsv = LoadCsv (Models.Productlisting.ProductListing)
 module OrderCsv = LoadCsv (Models.Order.Order)
+module ReviewCsv = LoadCsv (Models.Review.Review)
 
 let load_funcs =
   [
@@ -38,7 +39,8 @@ let load_funcs =
     CreditCardCsv.load "data/Credit_Cards.csv";
     RatingCsv.load "data/Ratings.csv";
     ProductListingCsv.load "data/Product_Listing.csv";
-    OrderCsv.load "data/Orders.csv"
+    OrderCsv.load "data/Orders.csv";
+    ReviewCsv.load "data/Reviews.csv";
   ]
 
 let run_load (module Db : Caqti_lwt.CONNECTION) =

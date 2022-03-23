@@ -187,6 +187,21 @@ CREATE TABLE orders (
 );|};
       down = mig_exec {|DROP TABLE orders;|};
     };
+    {
+      up =
+        mig_exec
+          {|
+CREATE TABLE review (
+  buyer_email TEXT,
+  seller_email TEXT,
+  listing_id INT,
+  review_desc TEXT,
+  FOREIGN KEY (seller_email) REFERENCES user (email),
+  FOREIGN KEY (listing_id) REFERENCES productlisting (listing_id),
+  FOREIGN KEY (buyer_email) REFERENCES user (email)
+);|};
+      down = mig_exec {|DROP TABLE review;|};
+    };
   ]
 
 let migrate_up (module Db : DB) =
