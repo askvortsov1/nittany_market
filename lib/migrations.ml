@@ -151,6 +151,23 @@ CREATE TABLE rating (
 );|};
       down = mig_exec {|DROP TABLE rating;|};
     };
+    {
+      up =
+        mig_exec
+          {|
+CREATE TABLE productlisting (
+  listing_id INT PRIMARY KEY,
+  seller_email TEXT,
+  category TEXT,
+  title TEXT,
+  product_name TEXT,
+  product_description TEXT,
+  price TEXT,
+  quantity INTEGER,
+  FOREIGN KEY (seller_email) REFERENCES user (email)
+);|};
+      down = mig_exec {|DROP TABLE productlisting;|};
+    };
   ]
 
 let migrate_up (module Db : DB) =
