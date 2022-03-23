@@ -16,6 +16,7 @@ module AddressCsv = LoadCsv (Models.Address.Address)
 module UserCsv = LoadCsv (Models.User.User)
 module BuyerCsv = LoadCsv (Models.Buyer.Buyer)
 module SellerCsv = LoadCsv (Models.Seller.Seller)
+module LocalVendorCsv = LoadCsv (Models.Localvendor.LocalVendor)
 module CreditCardCsv = LoadCsv (Models.Creditcard.CreditCard)
 
 let load_funcs =
@@ -28,6 +29,7 @@ let load_funcs =
       "data/Users.csv";
     BuyerCsv.load "data/Buyers.csv";
     SellerCsv.load "data/Seller.csv";
+    LocalVendorCsv.load "data/Local_Vendors.csv";
     CreditCardCsv.load "data/Credit_Cards.csv"
   ]
 

@@ -101,6 +101,19 @@ CREATE TABLE seller (
       up =
         mig_exec
           {|
+CREATE TABLE localvendor (
+  email TEXT PRIMARY KEY,
+  business_number TEXT,
+  business_address_id TEXT,
+  customer_service_number TEXT,
+  FOREIGN KEY (email) REFERENCES user (email)
+);|};
+      down = mig_exec {|DROP TABLE localvendor;|};
+    };
+    {
+      up =
+        mig_exec
+          {|
 CREATE TABLE creditcard (
   credit_card_num TEXT PRIMARY KEY,
   card_code INT,
