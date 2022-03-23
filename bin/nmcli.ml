@@ -25,7 +25,7 @@ let run_caqti callback =
 (* Lib Wrappers *)
 
 let start () =
-  Dream.run
+  Dream.run ~error_handler:Nittany_market.Router.custom_error_handler
   @@ Dream.logger
   @@ Dream.sql_pool sql_uri
   @@ Dream.sql_sessions
