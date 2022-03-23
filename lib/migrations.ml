@@ -97,6 +97,21 @@ CREATE TABLE seller (
 );|};
       down = mig_exec {|DROP TABLE seller;|};
     };
+    {
+      up =
+        mig_exec
+          {|
+CREATE TABLE creditcard (
+  credit_card_num TEXT PRIMARY KEY,
+  card_code INT,
+  expire_month INT,
+  expire_year INT,
+  card_type TEXT,
+  owner_email TEXT,
+  FOREIGN KEY (owner_email) REFERENCES user (email)
+);|};
+      down = mig_exec {|DROP TABLE creditcard;|};
+    };
   ]
 
 let migrate_up (module Db : DB) =
