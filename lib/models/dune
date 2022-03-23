@@ -1,5 +1,5 @@
 (library
  (name models)
  (public_name nittany_market.models)
- (libraries base caqti caqti-lwt csvfields dream ppx_deriving_yojson.runtime)
+ (libraries base caqti caqti-lwt csvfields dream ppx_deriving_yojson.runtime nittany_market.csv)
  (preprocess (pps lwt_ppx ppx_csv_conv ppx_deriving_yojson)))

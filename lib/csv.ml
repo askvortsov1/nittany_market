@@ -11,11 +11,13 @@ module LoadCsv (M : Models.Model_intf.Model) = struct
       data
 end
 
+module ZipcodeInfoCsv = LoadCsv (Models.Zipcodeinfo.ZipcodeInfo)
 module AddressCsv = LoadCsv (Models.Address.Address)
 module UserCsv = LoadCsv (Models.User.User)
 
 let load_funcs =
   [
+    ZipcodeInfoCsv.load "data/Zipcode_Info.csv";
     AddressCsv.load "data/Address.csv";
     UserCsv.load
       ~transform:(fun u ->

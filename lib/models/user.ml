@@ -1,7 +1,7 @@
 module User = struct
 
   type t = { email : string; password : string }
-  [@@deriving yojson, fields, csv]
+  [@@deriving fields, csv]
   type key = string
 
   type fields = string * string

@@ -1,7 +1,7 @@
 module Address = struct
 
   type t = { address_id: string; zipcode: string; street_num: int; street_name: string }
-  [@@deriving yojson, fields, csv]
+  [@@deriving fields, csv]
   type key = string
 
   type fields = string * string * int * string

@@ -32,11 +32,16 @@ CREATE TABLE dream_session (
       up =
         mig_exec
           {|
-CREATE TABLE user (
-  email TEXT PRIMARY KEY,
-  password TEXT
+CREATE TABLE zipcode_info (
+  zipcode TEXT PRIMARY KEY,
+  city TEXT,
+  state_id TEXT,
+  population INTEGER,
+  density FLOAT,
+  county_name TEXT,
+  timezone TEXT
 );|};
-      down = mig_exec {|DROP TABLE user;|};
+      down = mig_exec {|DROP TABLE zipcode_info;|};
     };
     {
       up =
@@ -46,9 +51,20 @@ CREATE TABLE address (
   address_id TEXT PRIMARY KEY,
   zipcode TEXT,
   street_num INTEGER,
-  street_name TEXT
+  street_name TEXT,
+  FOREIGN KEY (zipcode) REFERENCES zipcode_info (zipcode)
 );|};
       down = mig_exec {|DROP TABLE address;|};
+    };
+    {
+      up =
+        mig_exec
+          {|
+CREATE TABLE user (
+  email TEXT PRIMARY KEY,
+  password TEXT
+);|};
+      down = mig_exec {|DROP TABLE user;|};
     };
   ]
 
