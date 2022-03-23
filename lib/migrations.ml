@@ -84,6 +84,19 @@ CREATE TABLE buyer (
 );|};
       down = mig_exec {|DROP TABLE buyer;|};
     };
+    {
+      up =
+        mig_exec
+          {|
+CREATE TABLE seller (
+  email TEXT PRIMARY KEY,
+  routing_number TEXT,
+  account_number INT,
+  balance INT,
+  FOREIGN KEY (email) REFERENCES user (email)
+);|};
+      down = mig_exec {|DROP TABLE seller;|};
+    };
   ]
 
 let migrate_up (module Db : DB) =

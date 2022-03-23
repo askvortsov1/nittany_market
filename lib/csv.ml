@@ -15,6 +15,7 @@ module ZipcodeInfoCsv = LoadCsv (Models.Zipcodeinfo.ZipcodeInfo)
 module AddressCsv = LoadCsv (Models.Address.Address)
 module UserCsv = LoadCsv (Models.User.User)
 module BuyerCsv = LoadCsv (Models.Buyer.Buyer)
+module SellerCsv = LoadCsv (Models.Seller.Seller)
 
 let load_funcs =
   [
@@ -25,6 +26,7 @@ let load_funcs =
         { email = u.email; password = Auth.Hasher.hash u.password })
       "data/Users.csv";
     BuyerCsv.load "data/Buyers.csv";
+    SellerCsv.load "data/Seller.csv"
   ]
 
 let run_load (module Db : Caqti_lwt.CONNECTION) =
