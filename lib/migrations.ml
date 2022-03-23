@@ -125,6 +125,21 @@ CREATE TABLE creditcard (
 );|};
       down = mig_exec {|DROP TABLE creditcard;|};
     };
+    {
+      up =
+        mig_exec
+          {|
+CREATE TABLE rating (
+  buyer_email TEXT,
+  seller_email TEXT,
+  date TEXT,
+  rating INT,
+  rating_desc TEXT,
+  FOREIGN KEY (buyer_email) REFERENCES user (buyer_email),
+  FOREIGN KEY (seller_email) REFERENCES user (seller_email)
+);|};
+      down = mig_exec {|DROP TABLE rating;|};
+    };
   ]
 
 let migrate_up (module Db : DB) =
