@@ -164,9 +164,28 @@ CREATE TABLE productlisting (
   product_description TEXT,
   price TEXT,
   quantity INTEGER,
-  FOREIGN KEY (seller_email) REFERENCES user (email)
+  FOREIGN KEY (seller_email) REFERENCES user (email),
+  FOREIGN KEY (category) REFERENCES category (category_name)
 );|};
       down = mig_exec {|DROP TABLE productlisting;|};
+    };
+    {
+      up =
+        mig_exec
+          {|
+CREATE TABLE orders (
+  transaction_id INT PRIMARY KEY,
+  seller_email TEXT,
+  listing_id INT,
+  buyer_email TEXT,
+  date TEXT,
+  quantity INT,
+  balance INT,
+  FOREIGN KEY (seller_email) REFERENCES user (email),
+  FOREIGN KEY (listing_id) REFERENCES productlisting (listing_id),
+  FOREIGN KEY (buyer_email) REFERENCES user (email)
+);|};
+      down = mig_exec {|DROP TABLE orders;|};
     };
   ]
 
