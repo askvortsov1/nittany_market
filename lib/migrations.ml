@@ -66,6 +66,24 @@ CREATE TABLE user (
 );|};
       down = mig_exec {|DROP TABLE user;|};
     };
+    {
+      up =
+        mig_exec
+          {|
+CREATE TABLE buyer (
+  email TEXT PRIMARY KEY,
+  first_name TEXT,
+  last_name TEXT,
+  gender TEXT,
+  age INTEGER,
+  home_address_id TEXT,
+  billing_address_id TEXT,
+  FOREIGN KEY (email) REFERENCES user (email),
+  FOREIGN KEY (home_address_id) REFERENCES address (address_id),
+  FOREIGN KEY (billing_address_id) REFERENCES address (address_id)
+);|};
+      down = mig_exec {|DROP TABLE buyer;|};
+    };
   ]
 
 let migrate_up (module Db : DB) =
