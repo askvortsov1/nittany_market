@@ -32,6 +32,17 @@ CREATE TABLE dream_session (
       up =
         mig_exec
           {|
+CREATE TABLE category (
+  category_name TEXT PRIMARY KEY,
+  parent_category TEXT,
+  FOREIGN KEY (parent_category) REFERENCES category (category_name)
+);|};
+      down = mig_exec {|DROP TABLE category;|};
+    };
+    {
+      up =
+        mig_exec
+          {|
 CREATE TABLE zipcode_info (
   zipcode TEXT PRIMARY KEY,
   city TEXT,

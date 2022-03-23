@@ -11,6 +11,7 @@ module LoadCsv (M : Models.Model_intf.Model) = struct
       data
 end
 
+module CategoryCsv = LoadCsv (Models.Category.Category)
 module ZipcodeInfoCsv = LoadCsv (Models.Zipcodeinfo.ZipcodeInfo)
 module AddressCsv = LoadCsv (Models.Address.Address)
 module UserCsv = LoadCsv (Models.User.User)
@@ -22,6 +23,7 @@ module RatingCsv = LoadCsv (Models.Rating.Rating)
 
 let load_funcs =
   [
+    CategoryCsv.load "data/Categories.csv";
     ZipcodeInfoCsv.load "data/Zipcode_Info.csv";
     AddressCsv.load "data/Address.csv";
     UserCsv.load

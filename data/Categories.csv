@@ -1,0 +1,94 @@
+Root,Clothing
+Clothing,Tops
+Clothing,Bottoms
+Clothing,Sleepwear
+Tops,Bodysuits
+Tops,Long Sleeves
+Tops,T-Shirts
+Bottoms,Pants
+Bottoms,Skirts
+Bottoms,Jeans
+Sleepwear,Bath Robes
+Root,Electrical Supplies
+Electrical Supplies,Cell Phones
+Electrical Supplies,Tv & Home Theater
+Electrical Supplies,Wearable Technology
+Tv & Home Theater,75-Inch Tvs
+Tv & Home Theater,65-Inch Tvs
+Tv & Home Theater,55-Inch Tvs
+Wearable Technology,Apple Watch
+Wearable Technology,Headphones
+Wearable Technology,Wireless Headphones
+Root,Beauty Products
+Beauty Products,Makeup
+Makeup,Face
+Makeup,Lip
+Makeup,Brushes & Applicators
+Root,Kitchen & Appliances
+Kitchen & Appliances,Kitchen & Cooking Accessories
+Kitchen & Appliances,Kitchen Cabinets
+Kitchen & Appliances,Kitchen Faucets & Sinks
+Kitchen & Cooking Accessories,Kitchen Utensils
+Kitchen & Cooking Accessories,Mixing & Measuring Tools
+Kitchen & Cooking Accessories,Cooking Accessories
+Kitchen Cabinets,Wall Cabinets
+Kitchen Cabinets,High Cabinets
+Kitchen Cabinets,Base Cabinets
+Kitchen Faucets & Sinks,Kitchen Sinks
+Kitchen Faucets & Sinks,Kitchen Faucets
+Root,Toys & Video Games 
+Toys & Video Games ,Toys
+Toys & Video Games ,Video Games
+Toys & Video Games ,Outdoor Play
+Root,"Pharmacy, Health & Wellness"
+"Pharmacy, Health & Wellness",Health Care
+"Pharmacy, Health & Wellness",Wellness
+Health Care,"Cough, Cold & Flu"
+Health Care,Pain Relievers
+Health Care,Eye Care
+Wellness,Sleep Support
+Wellness,Performance Nutrition
+Wellness,Weight Loss
+Root,Pets
+Pets,Cat 
+Pets,Dog
+Cat ,Cat Dry Food
+Cat ,Cat Wet Food
+Cat ,Climbing Trees
+Dog,Dog Dry Food
+Dog,Dog Wet Food
+Dog,Dog Beds
+Root,Sports & Outdoors
+Sports & Outdoors,Sports
+Sports & Outdoors,Bikes
+Sports & Outdoors,Exercise & Fitness
+Sports,Baseball
+Sports,Basketball
+Sports,Tennis
+Bikes,Electric
+Bikes,Mountain
+Exercise & Fitness,Boxing & Mma
+Exercise & Fitness,Exercise Machines
+Exercise & Fitness,Yoga
+Root,Patio & Garden
+Patio & Garden,Outdoor Decor
+Patio & Garden,Patio Furniture
+Patio & Garden,Indoor & Live Plants
+Outdoor Decor,Outdoor Cushions
+Outdoor Decor,Outdoor Lighting
+Patio Furniture,Patio Conversation Sets
+Patio Furniture,Patio Dining Sets
+Patio Furniture,Porch Swings
+Indoor & Live Plants,Annuals
+Indoor & Live Plants,Plant Gifts
+Indoor & Live Plants,Indoor Plants
+Root,Grocery
+Grocery,Bakery & Bread
+Grocery,Meat & Seafood
+Grocery,Fresh Produce
+Bakery & Bread,Rolls & Buns
+Bakery & Bread,Cookies & Brownies
+Bakery & Bread,Pies
+Meat & Seafood,Seafood
+Meat & Seafood,Pork
+Meat & Seafood,Beef & Lamb
