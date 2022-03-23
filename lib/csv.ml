@@ -34,7 +34,7 @@ let load_funcs =
         { email = u.email; password = Auth.Hasher.hash u.password })
       "data/Users.csv";
     BuyerCsv.load "data/Buyers.csv";
-    SellerCsv.load "data/Seller.csv";
+    SellerCsv.load "data/Sellers.csv";
     LocalVendorCsv.load "data/Local_Vendors.csv";
     CreditCardCsv.load "data/Credit_Cards.csv";
     RatingCsv.load "data/Ratings.csv";
