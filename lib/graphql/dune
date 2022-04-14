@@ -1,0 +1,5 @@
+(library
+ (name nmgraphql)
+ (public_name nittany_market.nmgraphql)
+ (libraries base dream graphql nittany_market.models)
+ (preprocess (pps lwt_ppx ppx_csv_conv)))

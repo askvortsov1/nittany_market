@@ -1,4 +1,4 @@
 (library
  (name nittany_market)
- (libraries base cmdliner auth models views csvfields dream)
+ (libraries base cmdliner auth models views csvfields dream nmgraphql)
  (preprocess (pps lwt_ppx)))
