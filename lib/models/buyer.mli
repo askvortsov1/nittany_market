@@ -11,9 +11,9 @@ module Buyer: sig
     type key = string
     type fields = (string * string * string * string) * (int * string * string)
 
-    include Model_intf.Model with type t := t and type key := key and type fields := fields
+    include Model_intf.SingleKeyModel with type t := t and type key := key and type fields := fields
 end
 
 module BuyerRepository: sig
-    include Model_intf.ModelRepository with type t := Buyer.t and type key = Buyer.key
+    include Model_intf.SingleKeyModelRepository with type t := Buyer.t and type key = Buyer.key
 end

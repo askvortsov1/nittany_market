@@ -13,4 +13,4 @@ module Address = struct
   let t_of_caqtup (address_id, zipcode, street_num, street_name) = { address_id; zipcode; street_num; street_name }
 end
 
-module AddressRepository = Model_intf.Make_ModelRepository(Address)
+module AddressRepository = Model_intf.Make_SingleKeyModelRepository(Address)

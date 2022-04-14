@@ -38,4 +38,4 @@ module Order = struct
     }
 end
 
-module OrderRepository = Model_intf.Make_ModelRepository (Order)
+module OrderRepository = Model_intf.Make_SingleKeyModelRepository (Order)

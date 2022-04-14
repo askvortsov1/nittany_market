@@ -10,9 +10,9 @@ module CreditCard: sig
     type key = string
     type fields = (string * int * int * int) * (string * string)
 
-    include Model_intf.Model with type t := t and type key := key and type fields := fields
+    include Model_intf.SingleKeyModel with type t := t and type key := key and type fields := fields
 end
 
 module CreditCardRepository: sig
-    include Model_intf.ModelRepository with type t := CreditCard.t and type key = CreditCard.key
+    include Model_intf.SingleKeyModelRepository with type t := CreditCard.t and type key = CreditCard.key
 end

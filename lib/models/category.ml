@@ -13,4 +13,4 @@ module Category = struct
   let t_of_caqtup (category_name, parent_category) = { category_name; parent_category }
 end
 
-module CategoryRepository = Model_intf.Make_ModelRepository(Category)
+module CategoryRepository = Model_intf.Make_SingleKeyModelRepository(Category)

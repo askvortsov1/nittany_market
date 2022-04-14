@@ -8,12 +8,9 @@ module Rating = struct
   }
   [@@deriving fields, csv]
 
-  type key = string
   type fields = (string * string * string * int) * string
 
   let table_name = "rating"
-  let key_field = ""
-  let caqti_key_type = Caqti_type.string
   let caqti_types = Caqti_type.(tup2 (tup4 string string string int) string)
 
   let caqtup_of_t r =

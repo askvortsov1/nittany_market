@@ -3,9 +3,9 @@ module Seller: sig
     type key = string
     type fields = string * string * int * int
 
-    include Model_intf.Model with type t := t and type key := key and type fields := fields
+    include Model_intf.SingleKeyModel with type t := t and type key := key and type fields := fields
 end
 
 module SellerRepository: sig
-    include Model_intf.ModelRepository with type t := Seller.t and type key = Seller.key
+    include Model_intf.SingleKeyModelRepository with type t := Seller.t and type key = Seller.key
 end

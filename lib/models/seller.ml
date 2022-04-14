@@ -13,4 +13,4 @@ module Seller = struct
   let t_of_caqtup (email, routing_number, account_number, balance) = { email; routing_number; account_number; balance }
 end
 
-module SellerRepository = Model_intf.Make_ModelRepository(Seller)
+module SellerRepository = Model_intf.Make_SingleKeyModelRepository(Seller)

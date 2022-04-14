@@ -13,7 +13,7 @@ module ZipcodeInfo : sig
   type fields = (string * string * string * int option) * (float option * string * string)
 
   include
-    Model_intf.Model
+    Model_intf.SingleKeyModel
       with type t := t
        and type key := key
        and type fields := fields
@@ -21,7 +21,7 @@ end
 
 module ZipcodeInfoRepository : sig
   include
-    Model_intf.ModelRepository
+    Model_intf.SingleKeyModelRepository
       with type t := ZipcodeInfo.t
        and type key = ZipcodeInfo.key
 end

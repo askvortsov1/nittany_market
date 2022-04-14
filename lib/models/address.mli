@@ -3,9 +3,9 @@ module Address: sig
     type key = string
     type fields = string * string * int * string
 
-    include Model_intf.Model with type t := t and type key := key and type fields := fields
+    include Model_intf.SingleKeyModel with type t := t and type key := key and type fields := fields
 end
 
 module AddressRepository: sig
-    include Model_intf.ModelRepository with type t := Address.t and type key = Address.key
+    include Model_intf.SingleKeyModelRepository with type t := Address.t and type key = Address.key
 end

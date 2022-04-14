@@ -25,4 +25,4 @@ module CreditCard = struct
   let t_of_caqtup ((credit_card_num, card_code, expire_month, expire_year), (card_type, owner_email)) = {credit_card_num; card_code; expire_month; expire_year; card_type; owner_email}
 end
 
-module CreditCardRepository = Model_intf.Make_ModelRepository (CreditCard)
+module CreditCardRepository = Model_intf.Make_SingleKeyModelRepository (CreditCard)

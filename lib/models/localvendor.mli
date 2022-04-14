@@ -3,9 +3,9 @@ module LocalVendor: sig
     type key = string
     type fields = string * string * string * string
 
-    include Model_intf.Model with type t := t and type key := key and type fields := fields
+    include Model_intf.SingleKeyModel with type t := t and type key := key and type fields := fields
 end
 
 module LocalVendorRepository: sig
-    include Model_intf.ModelRepository with type t := LocalVendor.t and type key = LocalVendor.key
+    include Model_intf.SingleKeyModelRepository with type t := LocalVendor.t and type key = LocalVendor.key
 end

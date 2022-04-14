@@ -30,4 +30,4 @@ module ZipcodeInfo = struct
     { zipcode; city; state_id; population; density; county_name; timezone }
 end
 
-module ZipcodeInfoRepository = Model_intf.Make_ModelRepository (ZipcodeInfo)
+module ZipcodeInfoRepository = Model_intf.Make_SingleKeyModelRepository (ZipcodeInfo)

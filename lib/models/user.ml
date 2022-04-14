@@ -13,4 +13,4 @@ module User = struct
   let t_of_caqtup (email, password) = { email; password }
 end
 
-module UserRepository = Model_intf.Make_ModelRepository(User)
+module UserRepository = Model_intf.Make_SingleKeyModelRepository(User)

@@ -6,12 +6,11 @@ module Rating: sig
         rating : int;
         rating_desc : string;
       }
-    type key = string
     type fields = (string * string * string * int) * string
 
-    include Model_intf.Model with type t := t and type key := key and type fields := fields
+    include Model_intf.Model with type t := t and type fields := fields
 end
 
 module RatingRepository: sig
-    include Model_intf.ModelRepository with type t := Rating.t and type key = Rating.key
+    include Model_intf.ModelRepository with type t := Rating.t
 end

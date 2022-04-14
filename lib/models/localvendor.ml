@@ -26,4 +26,4 @@ module LocalVendor = struct
     { email; business_name; business_address_id; customer_service_number }
 end
 
-module LocalVendorRepository = Model_intf.Make_ModelRepository (LocalVendor)
+module LocalVendorRepository = Model_intf.Make_SingleKeyModelRepository (LocalVendor)

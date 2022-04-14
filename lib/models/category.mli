@@ -3,9 +3,9 @@ module Category: sig
     type key = string
     type fields = string * string
 
-    include Model_intf.Model with type t := t and type key := key and type fields := fields
+    include Model_intf.SingleKeyModel with type t := t and type key := key and type fields := fields
 end
 
 module CategoryRepository: sig
-    include Model_intf.ModelRepository with type t := Category.t and type key = Category.key
+    include Model_intf.SingleKeyModelRepository with type t := Category.t and type key = Category.key
 end

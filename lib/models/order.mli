@@ -11,9 +11,9 @@ module Order: sig
     type key = string
     type fields = (int * string * int * string) * (string * int * int)
 
-    include Model_intf.Model with type t := t and type key := key and type fields := fields
+    include Model_intf.SingleKeyModel with type t := t and type key := key and type fields := fields
 end
 
 module OrderRepository: sig
-    include Model_intf.ModelRepository with type t := Order.t and type key = Order.key
+    include Model_intf.SingleKeyModelRepository with type t := Order.t and type key = Order.key
 end

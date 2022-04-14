@@ -37,4 +37,4 @@ module ProductListing = struct
 end
 
 module ProductListingRepository =
-  Model_intf.Make_ModelRepository (ProductListing)
+  Model_intf.Make_SingleKeyModelRepository (ProductListing)

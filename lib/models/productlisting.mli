@@ -12,9 +12,9 @@ module ProductListing: sig
     type key = string
     type fields = (int * string * string * string) * (string * string * string * int)
 
-    include Model_intf.Model with type t := t and type key := key and type fields := fields
+    include Model_intf.SingleKeyModel with type t := t and type key := key and type fields := fields
 end
 
 module ProductListingRepository: sig
-    include Model_intf.ModelRepository with type t := ProductListing.t and type key = ProductListing.key
+    include Model_intf.SingleKeyModelRepository with type t := ProductListing.t and type key = ProductListing.key
 end

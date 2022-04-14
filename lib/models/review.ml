@@ -7,12 +7,9 @@ module Review = struct
   }
   [@@deriving fields, csv]
 
-  type key = string
   type fields = string * string * int * string
 
   let table_name = "review"
-  let key_field = ""
-  let caqti_key_type = Caqti_type.string
   let caqti_types = Caqti_type.(tup4 string string int string)
 
   let caqtup_of_t r =

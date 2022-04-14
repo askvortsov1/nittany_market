@@ -39,4 +39,4 @@ module Buyer = struct
     }
 end
 
-module BuyerRepository = Model_intf.Make_ModelRepository (Buyer)
+module BuyerRepository = Model_intf.Make_SingleKeyModelRepository (Buyer)
