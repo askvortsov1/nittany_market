@@ -1,0 +1,15 @@
+(executables
+ (names main)
+ (modes js)
+ (libraries
+  js_of_ocaml
+  nittany_market_frontend_graphql
+  bonsai
+  bonsai.web
+  bonsai.web_ui_form
+  ppx_typed_fields.typed_variants_lib
+  ppx_typed_fields.typed_fields_lib
+  bonsai.extra)
+ (preprocess
+  (pps ppx_jane js_of_ocaml-ppx ppx_typed_fields ppx_css))
+)
