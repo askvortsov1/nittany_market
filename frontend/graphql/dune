@@ -1,0 +1,4 @@
+(library
+ (name nittany_market_frontend_graphql)
+ (libraries cohttp-lwt-jsoo yojson graphql_ppx)
+ (preprocess (pps graphql_ppx ppx_deriving_yojson)))

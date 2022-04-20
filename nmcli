@@ -1,2 +1,13 @@
+#!/bin/bash
+
 dune build
+
+if [ "$1" = "run" ]; then
+    cd frontend
+    dune build ./main.bc.js
+    cd ..
+    mv -f _build/default/frontend/main.bc.js assets/main.bc.js
+fi
+
+
 ./_build/default/bin/nmcli.exe "$@"
