@@ -1,3 +1,4 @@
+open Caqti_request.Infix
 module type DB = Caqti_lwt.CONNECTION
 
 module R = Caqti_request
@@ -9,7 +10,7 @@ type migration = {
 }
 
 let mig_exec str =
-  let query = R.exec T.unit str in
+  let query = T.unit -->. T.unit @:- str in
   fun (module Db : DB) ->
     let%lwt unit_or_error = Db.exec query () in
     Caqti_lwt.or_fail unit_or_error
@@ -25,8 +26,8 @@ CREATE TABLE dream_session (
   label TEXT NOT NULL,
   expires_at REAL NOT NULL,
   payload TEXT NOT NULL
-);|};
-      down = mig_exec {|DROP TABLE dream_session;|};
+)|};
+      down = mig_exec {|DROP TABLE dream_session|};
     };
     {
       up =
@@ -36,8 +37,8 @@ CREATE TABLE category (
   category_name TEXT PRIMARY KEY,
   parent_category TEXT,
   FOREIGN KEY (parent_category) REFERENCES category (category_name)
-);|};
-      down = mig_exec {|DROP TABLE category;|};
+)|};
+      down = mig_exec {|DROP TABLE category|};
     };
     {
       up =
@@ -51,8 +52,8 @@ CREATE TABLE zipcode_info (
   density FLOAT,
   county_name TEXT,
   timezone TEXT
-);|};
-      down = mig_exec {|DROP TABLE zipcode_info;|};
+)|};
+      down = mig_exec {|DROP TABLE zipcode_info|};
     };
     {
       up =
@@ -64,8 +65,8 @@ CREATE TABLE address (
   street_num INTEGER,
   street_name TEXT,
   FOREIGN KEY (zipcode) REFERENCES zipcode_info (zipcode)
-);|};
-      down = mig_exec {|DROP TABLE address;|};
+)|};
+      down = mig_exec {|DROP TABLE address|};
     };
     {
       up =
@@ -74,8 +75,8 @@ CREATE TABLE address (
 CREATE TABLE user (
   email TEXT PRIMARY KEY,
   password TEXT
-);|};
-      down = mig_exec {|DROP TABLE user;|};
+)|};
+      down = mig_exec {|DROP TABLE user|};
     };
     {
       up =
@@ -92,8 +93,8 @@ CREATE TABLE buyer (
   FOREIGN KEY (email) REFERENCES user (email),
   FOREIGN KEY (home_address_id) REFERENCES address (address_id),
   FOREIGN KEY (billing_address_id) REFERENCES address (address_id)
-);|};
-      down = mig_exec {|DROP TABLE buyer;|};
+)|};
+      down = mig_exec {|DROP TABLE buyer|};
     };
     {
       up =
@@ -105,8 +106,8 @@ CREATE TABLE seller (
   account_number INT,
   balance INT,
   FOREIGN KEY (email) REFERENCES user (email)
-);|};
-      down = mig_exec {|DROP TABLE seller;|};
+)|};
+      down = mig_exec {|DROP TABLE seller|};
     };
     {
       up =
@@ -118,8 +119,8 @@ CREATE TABLE localvendor (
   business_address_id TEXT,
   customer_service_number TEXT,
   FOREIGN KEY (email) REFERENCES user (email)
-);|};
-      down = mig_exec {|DROP TABLE localvendor;|};
+)|};
+      down = mig_exec {|DROP TABLE localvendor|};
     };
     {
       up =
@@ -133,8 +134,8 @@ CREATE TABLE creditcard (
   card_type TEXT,
   owner_email TEXT,
   FOREIGN KEY (owner_email) REFERENCES user (email)
-);|};
-      down = mig_exec {|DROP TABLE creditcard;|};
+)|};
+      down = mig_exec {|DROP TABLE creditcard|};
     };
     {
       up =
@@ -148,8 +149,8 @@ CREATE TABLE rating (
   rating_desc TEXT,
   FOREIGN KEY (buyer_email) REFERENCES user (buyer_email),
   FOREIGN KEY (seller_email) REFERENCES user (seller_email)
-);|};
-      down = mig_exec {|DROP TABLE rating;|};
+)|};
+      down = mig_exec {|DROP TABLE rating|};
     };
     {
       up =
@@ -166,8 +167,8 @@ CREATE TABLE productlisting (
   quantity INTEGER,
   FOREIGN KEY (seller_email) REFERENCES user (email),
   FOREIGN KEY (category) REFERENCES category (category_name)
-);|};
-      down = mig_exec {|DROP TABLE productlisting;|};
+)|};
+      down = mig_exec {|DROP TABLE productlisting|};
     };
     {
       up =
@@ -184,8 +185,8 @@ CREATE TABLE orders (
   FOREIGN KEY (seller_email) REFERENCES user (email),
   FOREIGN KEY (listing_id) REFERENCES productlisting (listing_id),
   FOREIGN KEY (buyer_email) REFERENCES user (email)
-);|};
-      down = mig_exec {|DROP TABLE orders;|};
+)|};
+      down = mig_exec {|DROP TABLE orders|};
     };
     {
       up =
@@ -199,8 +200,8 @@ CREATE TABLE review (
   FOREIGN KEY (seller_email) REFERENCES user (email),
   FOREIGN KEY (listing_id) REFERENCES productlisting (listing_id),
   FOREIGN KEY (buyer_email) REFERENCES user (email)
-);|};
-      down = mig_exec {|DROP TABLE review;|};
+)|};
+      down = mig_exec {|DROP TABLE review|};
     };
   ]
 

@@ -1,3 +1,5 @@
+open Caqti_request.Infix
+
 module type Model = sig
   type t
   type fields
@@ -43,17 +45,17 @@ module Make_ModelRepository (M : Model) = struct
 
   let add x (module Db : Caqti_lwt.CONNECTION) =
     let query =
-      Caqti_request.exec M.caqti_types
-        (Printf.sprintf "INSERT INTO %s VALUES (%s)" M.table_name
-           prepared_pattern)
+      (M.caqti_types -->! Caqti_type.unit)
+      @:- Printf.sprintf "INSERT INTO %s VALUES (%s)" M.table_name
+            prepared_pattern
     in
-    let%lwt unit_or_error = Db.exec query (M.caqtup_of_t x) in
+    let%lwt unit_or_error = Db.find query (M.caqtup_of_t x) in
     Caqti_lwt.or_fail unit_or_error
 
   let all () =
     let query =
-      Caqti_request.collect Caqti_type.unit M.caqti_types
-        (Printf.sprintf "SELECT * FROM %s" M.table_name)
+      (Caqti_type.unit -->* M.caqti_types)
+      @:- Printf.sprintf "SELECT * FROM %s" M.table_name
     in
     fun (module Db : Caqti_lwt.CONNECTION) ->
       let%lwt unit_or_error = Db.collect_list query () in
@@ -68,8 +70,8 @@ module Make_SingleKeyModelRepository (M : SingleKeyModel) = struct
 
   let get email =
     let query =
-      Caqti_request.find_opt M.caqti_key_type M.caqti_types
-        (Printf.sprintf "SELECT * FROM %s WHERE %s=?" M.table_name M.key_field)
+      (M.caqti_key_type -->? M.caqti_types)
+      @:- Printf.sprintf "SELECT * FROM %s WHERE %s=?" M.table_name M.key_field
     in
     fun (module Db : Caqti_lwt.CONNECTION) ->
       let%lwt unit_or_error = Db.find_opt query email in
