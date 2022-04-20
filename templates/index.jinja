@@ -5,26 +5,3 @@
 {% block header_title %}
     Nittany Market Home
 {% endblock %}
-{% block content %}
-    {% if user_id %}
-        Logged in as {{ user_id }}
-        <form action="/logout" method="post">
-            {{ csrf_tag|safe }}
-            <button type="submit">Logout</button>
-        </form>
-    {% else %}
-        Not logged in
-        <form action="/login" method="post">
-            {{ csrf_tag|safe }}
-            <div class="form-group">
-            <label for="email">Email</label>
-            <input type="text" name="email" required class="form-control" />
-            </div>
-            <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" name="password" required class="form-control" />
-            </div>
-            <button type="submit" class="btn btn-primary">Login</button>
-        </form
-    {% endif %}
-{% endblock %}
