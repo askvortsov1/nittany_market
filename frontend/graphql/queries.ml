@@ -10,8 +10,10 @@ module type Query = sig
   val query : string
   val parse : Raw.t -> t
   val serialize : t -> Raw.t
+  val serializeVariables: t_variables -> Raw.t_variables
   val unsafe_fromJson : Yojson.Basic.t -> Raw.t
   val toJson : Raw.t -> Yojson.Basic.t
+  val variablesToJson: Raw.t_variables -> Yojson.Basic.t
 end
 
 module SexpableQuery (Q : Query) = struct
@@ -48,4 +50,13 @@ end
       email
     }
   }
+|}];;
+
+[%graphql
+  {|
+  mutation LoginMutation($email: String!, $password: String!) {
+    login(email: $email, password: $password)
+  }
 |}]
+;;
+
