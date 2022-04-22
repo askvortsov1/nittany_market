@@ -160,9 +160,13 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "OBJECT",
-              "name": "payload",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "payload",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null

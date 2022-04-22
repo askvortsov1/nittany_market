@@ -34,7 +34,7 @@ let schema =
   Schema.(
     schema
       [
-        field "payload" ~args:Arg.[] ~typ:payload ~resolve:(fun _ _ -> Some ());
+        field "payload" ~args:Arg.[] ~typ:(non_null payload) ~resolve:(fun _ _ -> ());
         io_field "users"
           ~args:Arg.[]
           ~typ:(non_null (list (non_null user)))
