@@ -30,8 +30,8 @@ let alert_effect =
       Client.query (Login.makeVariables ~email:s.email ~password:s.password ())
     in
     Lwt.map
-      (fun (_resp, (body : Login.t option)) ->
-        let success = match body with Some a -> a.login | None -> false in
+      (fun (resp) ->
+        let success = match resp with Client.Success logged_in -> logged_in.login | _ -> false in
         if success then ignore Js_of_ocaml.Dom_html.window##.location##reload
         else
           ignore
