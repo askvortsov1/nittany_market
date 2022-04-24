@@ -1,0 +1,38 @@
+open Bonsai_web
+
+let skeleton title body =
+  Vdom.Node.div
+    ~attr:(Vdom.Attr.classes [ "container"; "min-vh-100" ])
+    [
+      Vdom.Node.div
+        ~attr:(Vdom.Attr.classes [ "row"; "min-vh-100" ])
+        [
+          Vdom.Node.div
+            ~attr:(Vdom.Attr.classes [ "col-md-12"; "min-vh-100" ])
+            [
+              Vdom.Node.div
+                ~attr:(Vdom.Attr.classes [ "p-4"; "text-center"; "bg-primary" ])
+                [
+                  Vdom.Node.h1
+                    ~attr:(Vdom.Attr.classes [ "mb-3"; "text-light" ])
+                    [ title ];
+                ];
+              Vdom.Node.div
+                ~attr:
+                  (Vdom.Attr.classes
+                     [ "container-sm"; "bg-white"; "min-vh-100" ])
+                [ body ];
+            ];
+        ];
+    ]
+
+let not_found =
+  Vdom.Node.div
+    [
+      Vdom.Node.p [ Vdom.Node.text "Not Found" ];
+      Vdom.Node.a
+        ~attr:
+          (Vdom.Attr.many
+             [ Vdom.Attr.href "/"; Vdom.Attr.classes [ "btn"; "btn-primary" ] ])
+        [ Vdom.Node.text "Return To Home" ];
+    ]
