@@ -3,18 +3,16 @@ open Lwt.Infix
 let url = Uri.of_string "http://localhost:8080/graphql"
 
 module ForQuery (Q : Queries.Query) = struct
-  type query_body = { query : string; variables : string } [@@deriving yojson]
+  module SerializableQ = Queries.SerializableQuery(Q)
+  type query_body = { query : string; variables : SerializableQ.t_variables }
+  [@@deriving yojson_of]
 
   let create_body q vars =
-    let yojson = query_body_to_yojson { query = q; variables = vars } in
+    let yojson = yojson_of_query_body { query = q; variables = vars } in
     let json = Yojson.Safe.to_string yojson in
     Cohttp_lwt.Body.of_string json
 
-  let query ?(url = url) variables =
-    let vars =
-      variables |> Q.serializeVariables |> Q.variablesToJson
-      |> Yojson.Basic.to_string
-    in
+  let query ?(url = url) vars =
     Cohttp_lwt_jsoo.Client.post
       ~headers:(Cohttp.Header.init_with "Content-Type" "application/json")
       ~body:(create_body Q.query vars) url
@@ -33,4 +31,3 @@ module ForQuery (Q : Queries.Query) = struct
     in
     model_lwt >|= fun model -> (resp.status, model)
 end
-

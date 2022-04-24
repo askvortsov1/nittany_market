@@ -16,7 +16,7 @@ module type Query = sig
   val variablesToJson: Raw.t_variables -> Yojson.Basic.t
 end
 
-module SexpableQuery (Q : Query) = struct
+module SerializableQuery (Q : Query) = struct
   include Q
 
   let t_of_sexp s =
@@ -28,6 +28,9 @@ module SexpableQuery (Q : Query) = struct
     Sexplib0.Sexp.Atom t_str
 
   let equal a b = Sexplib0.Sexp.equal (sexp_of_t a) (sexp_of_t b)
+
+  let yojson_of_t_variables vars =
+    vars |> serializeVariables |> Q.variablesToJson |> Yojson.Basic.to_string |> Yojson.Safe.from_string
 end
 ;;
 
