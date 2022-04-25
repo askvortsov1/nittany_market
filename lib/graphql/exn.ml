@@ -1,0 +1,2 @@
+exception Unauthorized
+exception Forbidden
