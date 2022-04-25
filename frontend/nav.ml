@@ -46,10 +46,17 @@ let component (u : G.Queries.UserFields.t Value.t) =
       ~attrs:[ Vdom.Attr.class_ "nav-link" ]
       (Value.return "/add_listing")
   in
+  let%sub my_listings_link =
+    Route.link_path
+      ~children:(Bonsai.const @@ Vdom.Node.text "My Listings")
+      ~attrs:[ Vdom.Attr.class_ "nav-link" ]
+      (Value.return "/my_listings")
+  in
   let%arr u = u
   and home_link = home_link
   and account_link = account_link
   and browse_link = browse_link
+  and my_listings_link = my_listings_link
   and add_listing_link = add_listing_link in
   let wrap_link link =
     Vdom.Node.li ~attr:(Vdom.Attr.classes [ "nav-item" ]) [ link ]
@@ -70,6 +77,9 @@ let component (u : G.Queries.UserFields.t Value.t) =
               wrap_link browse_link;
               (if Option.is_some u.seller_profile then
                wrap_link add_listing_link
+              else Vdom.Node.none);
+              (if Option.is_some u.seller_profile then
+               wrap_link my_listings_link
               else Vdom.Node.none);
             ];
         ];

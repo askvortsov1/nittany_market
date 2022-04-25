@@ -144,6 +144,16 @@ fragment ProductListingFields on product_listing {
 
 [%graphql
   {|
+  query MyListingsQuery {
+    my_listings {
+      ...ProductListingFields
+    }
+  }
+|}]
+;;
+
+[%graphql
+  {|
   query CategoryQuery($id: String!) {
     category(id: $id) {
       name

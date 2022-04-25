@@ -225,8 +225,7 @@ let product_listing =
             ~resolve:(fun info (r : Models.Productlisting.ProductListing.t) ->
               let res =
                 Dream.sql info.ctx
-                  (Models.Review.ReviewRepository.query_listing_id
-                     r.listing_id)
+                  (Models.Review.ReviewRepository.query_listing_id r.listing_id)
               in
               Lwt_result.ok res);
         ]))
@@ -314,6 +313,17 @@ let schema =
             Lwt_result.ok
               (Dream.sql info.ctx
                  (Models.Productlisting.ProductListingRepository.get pid)));
+        io_field "my_listings" ~args:[]
+          ~typ:(non_null (list (non_null product_listing)))
+          ~resolve:(fun info () ->
+            let uid = Dream.session_field info.ctx "user_id" in
+            match uid with
+            | Some uid ->
+                Lwt_result.ok
+                  (Dream.sql info.ctx
+                     (Models.Productlisting.ProductListingRepository
+                      .query_seller_email uid))
+            | None -> Lwt_result.return []);
         io_field "categories"
           ~args:Arg.[]
           ~typ:(non_null (list (non_null category)))
@@ -344,18 +354,18 @@ let schema =
             ~resolve:(fun info () old_password new_password ->
               Lwt_result.ok
                 (Util.change_password info.ctx old_password new_password));
-                io_field "add_listing" ~typ:(non_null int)
-                  ~args:
-                    Arg.
-                      [
-                        arg "category" ~typ:(non_null string);
-                        arg "title" ~typ:(non_null string);
-                        arg "product_name" ~typ:(non_null string);
-                        arg "product_description" ~typ:(non_null string);
-                        arg "price" ~typ:(non_null string);
-                        arg "quantity" ~typ:(non_null int);
-                      ]
-                  ~resolve:(fun info () cat title name desc price quantity ->
-                    Lwt_result.ok
-                      (Util.add_listing info.ctx cat title name desc price quantity));
+          io_field "add_listing" ~typ:(non_null int)
+            ~args:
+              Arg.
+                [
+                  arg "category" ~typ:(non_null string);
+                  arg "title" ~typ:(non_null string);
+                  arg "product_name" ~typ:(non_null string);
+                  arg "product_description" ~typ:(non_null string);
+                  arg "price" ~typ:(non_null string);
+                  arg "quantity" ~typ:(non_null int);
+                ]
+            ~resolve:(fun info () cat title name desc price quantity ->
+              Lwt_result.ok
+                (Util.add_listing info.ctx cat title name desc price quantity));
         ])

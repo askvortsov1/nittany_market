@@ -76,24 +76,24 @@ let child_names ?cname (all : G.Queries.CategoriesQuery.t_categories array) =
           c.children |> Array.map ~f:(fun c -> c.name)
       | None -> Array.of_list [])
 
+let product_card (product : G.Queries.ProductListingFields.t) =
+  Vdom.Node.div
+    ~attr:(Vdom.Attr.classes [ "col-4"; "px-3"; "py-2" ])
+    [
+      Templates.card
+        (Vdom.Node.text product.title)
+        (Vdom.Node.div
+           [
+             Templates.bullet "Price" product.price;
+             Templates.bullet "Quantity" (Int.to_string product.quantity);
+             Route.link_path_vdom
+               (Util.product_path product.id)
+               ~attrs:[ Vdom.Attr.classes [ "btn"; "btn-secondary" ] ]
+               ~children:(Vdom.Node.text "Details");
+           ]);
+    ]
+
 let display_products (products : G.Queries.ProductListingFields.t array) =
-  let product_card (product : G.Queries.ProductListingFields.t) =
-    Vdom.Node.div
-      ~attr:(Vdom.Attr.classes [ "col-4"; "px-3"; "py-2" ])
-      [
-        Templates.card
-          (Vdom.Node.text product.title)
-          (Vdom.Node.div
-             [
-               Templates.bullet "Price" product.price;
-               Templates.bullet "Quantity" (Int.to_string product.quantity);
-               Route.link_path_vdom
-                 (Util.product_path product.id)
-                 ~attrs:[ Vdom.Attr.classes [ "btn"; "btn-secondary" ] ]
-                 ~children:(Vdom.Node.text "Details");
-             ]);
-      ]
-  in
   let product_cards = products |> Array.map ~f:product_card |> Array.to_list in
   Vdom.Node.div
     ~attr:(Vdom.Attr.classes [ "px-5"; "px-3" ])
