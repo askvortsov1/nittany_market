@@ -157,6 +157,20 @@ let user =
               Lwt_result.ok res);
         ]))
 
+let review =
+  Schema.(
+    obj "review" ~fields:(fun _ ->
+        [
+          field "description"
+            ~args:Arg.[]
+            ~typ:(non_null string)
+            ~resolve:(fun _ (r : Models.Review.Review.t) -> r.review_desc);
+          field "buyer_email"
+            ~args:Arg.[]
+            ~typ:(non_null string)
+            ~resolve:(fun _ (r : Models.Review.Review.t) -> r.buyer_email);
+        ]))
+
 let product_listing =
   Schema.(
     obj "product_listing" ~fields:(fun _ ->
@@ -203,6 +217,16 @@ let product_listing =
               let res =
                 Dream.sql info.ctx
                   (Models.User.UserRepository.get pl.seller_email)
+              in
+              Lwt_result.ok res);
+          io_field "reviews"
+            ~args:Arg.[]
+            ~typ:(non_null (list (non_null review)))
+            ~resolve:(fun info (r : Models.Productlisting.ProductListing.t) ->
+              let res =
+                Dream.sql info.ctx
+                  (Models.Review.ReviewRepository.query_listing_id
+                     r.listing_id)
               in
               Lwt_result.ok res);
         ]))

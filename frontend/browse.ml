@@ -130,13 +130,7 @@ let display_category all
       display_products products;
     ]
 
-let display_root (all : G.Queries.CategoriesQuery.t_categories array Value.t) =
-  let children = Value.map all ~f:child_names in
-  let%arr children = children in
-  Vdom.Node.div [ display_children ~root:true children ]
-
 let component =
-  let path = Route.curr_path_novalue () in
   let deoptionize x = match x with Some x -> x | None -> "" in
   let get_slug path =
     let re = Js_of_ocaml.Regexp.regexp "^/browse/?(.*)/?$" in
@@ -146,26 +140,21 @@ let component =
     |> Option.map ~f:Js_of_ocaml.Url.urldecode
   in
 
-  let cid = get_slug path in
-
   let module Categories = G.Queries.CategoriesQuery in
   let module PluralLoader = Graphql_loader.ForQuery (Categories) in
   PluralLoader.component ~trigger:Route.curr_path
     (fun all_query ->
       let all = Value.map ~f:(fun data -> data.categories) all_query in
-      match cid with
-      | None -> display_root all
-      | Some _ ->
-          let module Category = G.Queries.CategoryQuery in
-          let module SingleLoader = Graphql_loader.ForQuery (Category) in
-          SingleLoader.component
-            (fun category_query ->
-              let category =
-                Value.map ~f:(fun data -> data.category) category_query
-              in
-              display_category all category)
-            (Value.map
-               ~f:(fun v ->
-                 Category.makeVariables ~id:(deoptionize @@ get_slug v) ())
-               Route.curr_path))
+      let module Category = G.Queries.CategoryQuery in
+      let module SingleLoader = Graphql_loader.ForQuery (Category) in
+      SingleLoader.component ~trigger:Route.curr_path
+        (fun category_query ->
+          let category =
+            Value.map ~f:(fun data -> data.category) category_query
+          in
+          display_category all category)
+        (Value.map
+           ~f:(fun v ->
+             Category.makeVariables ~id:(deoptionize @@ get_slug v) ())
+           Route.curr_path))
     (Value.return @@ Categories.makeVariables ())

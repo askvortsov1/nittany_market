@@ -55,6 +55,7 @@ let not_found =
 let display_opt component v =
   match v with None -> Vdom.Node.none | Some v -> component v
 
-let bullet key value =
-  Vdom.Node.li
-    [ Vdom.Node.strong [ Vdom.Node.textf "%s: " key ]; Vdom.Node.text value ]
+let bullet_vdom key vdom =
+  Vdom.Node.li [ Vdom.Node.strong [ Vdom.Node.textf "%s: " key ]; vdom ]
+
+let bullet key value = bullet_vdom key (Vdom.Node.text value)

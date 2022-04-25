@@ -68,6 +68,10 @@ fragment ProductListingFields on product_listing {
     email
   }
   category_name
+  reviews {
+    buyer_email
+    description
+  }
 }
 |}]
 ;;
