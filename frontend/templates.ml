@@ -29,12 +29,12 @@ let skeleton ?(nav = Vdom.Node.none) title body =
     ]
 
 
-let card title body =
+let card ?(extra_classes=[]) title body =
   Vdom.Node.div ~attr:(Vdom.Attr.class_ "card")
     [
       Vdom.Node.div
         ~attr:(Vdom.Attr.class_ "card-body")
-        [ Vdom.Node.h5 ~attr:(Vdom.Attr.class_ "card-title") [ title ]; body ];
+        [ Vdom.Node.h5 ~attr:(Vdom.Attr.classes ("card-title" :: extra_classes)) [ title ]; body ];
     ]
 
 let not_found =

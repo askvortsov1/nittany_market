@@ -37,9 +37,32 @@ let display_buyer_profile (prof : G.Queries.UserFields.t_buyer_profile) =
          display_address "Billing Address" prof.billing_address;
        ])
 
+let display_seller_profile (prof : G.Queries.UserFields.t_seller_profile) =
+  Templates.card
+    (Vdom.Node.text "Seller Profile")
+    (Vdom.Node.div
+       [
+         bullet "Current Balance (USD)" (Int.to_string prof.balance);
+         bullet "Account Number" (Int.to_string prof.account_number);
+         bullet "Routing Number" prof.routing_number;
+       ])
+
+let display_vendor_profile (prof : G.Queries.UserFields.t_vendor_profile) =
+  Templates.card
+    (Vdom.Node.text "Vendor Profile")
+    (Vdom.Node.div
+       [
+         bullet "Business Name" prof.business_name;
+         bullet "Customer Service Number" prof.customer_service_number;
+         display_address "Business Address" prof.business_address;
+       ])
+
 let component (u : G.Queries.UserFields.t Value.t) =
   let%arr u = u in
   Vdom.Node.div
     [
-      display_account_info u; display_opt display_buyer_profile u.buyer_profile;
+      display_account_info u;
+      display_opt display_buyer_profile u.buyer_profile;
+      display_opt display_seller_profile u.seller_profile;
+      display_opt display_vendor_profile u.vendor_profile;
     ]

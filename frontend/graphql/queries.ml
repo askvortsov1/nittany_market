@@ -61,6 +61,18 @@ end
         ...AddressFields
       }
     }
+    seller_profile {
+      account_number
+      routing_number
+      balance
+    }
+    vendor_profile {
+      business_name
+      business_address {
+        ...AddressFields
+      }
+      customer_service_number
+    }
   }
 |}]
 ;;

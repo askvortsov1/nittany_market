@@ -54,6 +54,47 @@ let buyer_profile =
                    (Models.Address.AddressRepository.get bp.billing_address_id)));
         ]))
 
+let seller_profile =
+  Schema.(
+    obj "seller_profile" ~fields:(fun _ ->
+        [
+          field "routing_number"
+            ~args:Arg.[]
+            ~typ:(non_null string)
+            ~resolve:(fun _ (s : Models.Seller.Seller.t) -> s.routing_number);
+          field "account_number"
+            ~args:Arg.[]
+            ~typ:(non_null int)
+            ~resolve:(fun _ (s : Models.Seller.Seller.t) -> s.account_number);
+          field "balance"
+            ~args:Arg.[]
+            ~typ:(non_null int)
+            ~resolve:(fun _ (s : Models.Seller.Seller.t) -> s.balance);
+        ]))
+
+let vendor_profile =
+  Schema.(
+    obj "vendor_profile" ~fields:(fun _ ->
+        [
+          field "business_name"
+            ~args:Arg.[]
+            ~typ:(non_null string)
+            ~resolve:(fun _ (v : Models.Localvendor.LocalVendor.t) ->
+              v.business_name);
+          field "customer_service_number"
+            ~args:Arg.[]
+            ~typ:(non_null string)
+            ~resolve:(fun _ (v : Models.Localvendor.LocalVendor.t) ->
+              v.customer_service_number);
+          io_field "business_address"
+            ~args:Arg.[]
+            ~typ:address
+            ~resolve:(fun info (v : Models.Localvendor.LocalVendor.t) ->
+              Lwt_result.ok
+                (Dream.sql info.ctx
+                   (Models.Address.AddressRepository.get v.business_address_id)));
+        ]))
+
 let user =
   Schema.(
     obj "user" ~fields:(fun _ ->
@@ -68,6 +109,20 @@ let user =
             ~resolve:(fun info (u : Models.User.User.t) ->
               Lwt_result.ok
                 (Dream.sql info.ctx (Models.Buyer.BuyerRepository.get u.email)));
+          io_field "seller_profile"
+            ~args:Arg.[]
+            ~typ:seller_profile
+            ~resolve:(fun info (u : Models.User.User.t) ->
+              Lwt_result.ok
+                (Dream.sql info.ctx
+                   (Models.Seller.SellerRepository.get u.email)));
+          io_field "vendor_profile"
+            ~args:Arg.[]
+            ~typ:vendor_profile
+            ~resolve:(fun info (u : Models.User.User.t) ->
+              Lwt_result.ok
+                (Dream.sql info.ctx
+                   (Models.Localvendor.LocalVendorRepository.get u.email)));
         ]))
 
 let payload =
