@@ -11,6 +11,8 @@ let logged_in u =
         | [ "account" ] -> Bonsai.const @@ Vdom.Node.text "My Account"
         | [ "browse" ] | [ "browse"; _ ] ->
             Bonsai.const @@ Vdom.Node.text "Browse Products"
+            | [ "products" ] | [ "products"; _ ] ->
+                Bonsai.const @@ Vdom.Node.text "Product Details"
         | _ -> Bonsai.const @@ Vdom.Node.text "Not found")
   in
   let title = Route.router title_router in
@@ -20,6 +22,7 @@ let logged_in u =
         | [] -> Bonsai.const @@ Vdom.Node.text "Welcome to Nittany Market!"
         | [ "account" ] -> Account.component u
         | [ "browse" ] | [ "browse"; _ ] -> Browse.component
+        | [ "products" ] | [ "products"; _ ] -> View_product.component
         | _ -> Bonsai.const @@ Vdom.Node.text "Not found")
   in
   let body = Route.router body_router in

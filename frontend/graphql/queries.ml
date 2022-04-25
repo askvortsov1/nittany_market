@@ -64,6 +64,10 @@ fragment ProductListingFields on product_listing {
   product_description
   price
   quantity
+  seller {
+    email
+  }
+  category_name
 }
 |}]
 ;;
@@ -123,6 +127,16 @@ fragment ProductListingFields on product_listing {
     }
   }
 |}];;
+
+[%graphql
+  {|
+  query ProductListingQuery($id: Int!) {
+    product_listing(id: $id) {
+      ...ProductListingFields
+    }
+  }
+|}]
+;;
 
 [%graphql
   {|

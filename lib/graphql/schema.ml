@@ -283,6 +283,13 @@ let schema =
           ~resolve:(fun info () name ->
             Lwt_result.ok
               (Dream.sql info.ctx (Models.Category.CategoryRepository.get name)));
+        io_field "product_listing"
+          ~args:Arg.[ arg "id" ~typ:(non_null int) ]
+          ~typ:product_listing
+          ~resolve:(fun info () pid ->
+            Lwt_result.ok
+              (Dream.sql info.ctx
+                 (Models.Productlisting.ProductListingRepository.get pid)));
         io_field "categories"
           ~args:Arg.[]
           ~typ:(non_null (list (non_null category)))

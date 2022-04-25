@@ -3,8 +3,6 @@ open! Bonsai_web
 open Bonsai.Let_syntax
 module G = Nittany_market_frontend_graphql
 
-let category_path cname = Printf.sprintf "/browse/%s" cname
-
 let breadcrumbs (all : G.Queries.CategoriesQuery.t_categories array Value.t)
     (category : G.Queries.CategoryQuery.t_category option Value.t) =
   let trail =
@@ -33,7 +31,7 @@ let breadcrumbs (all : G.Queries.CategoriesQuery.t_categories array Value.t)
   let opt_vdom =
     trail
     |> List.map ~f:(fun (cname, cslug) ->
-           Route.link_path_vdom (category_path cslug)
+           Route.link_path_vdom (Util.category_path cslug)
              ~children:(Vdom.Node.text cname))
     |> List.intersperse ~sep:(Vdom.Node.text ">")
     |> List.map ~f:(fun link -> [ link ])
@@ -46,7 +44,7 @@ let display_children ?(root = false) (children : string array) =
   let contents =
     children
     |> Array.map ~f:(fun child ->
-           Route.link_path_vdom (category_path child)
+           Route.link_path_vdom (Util.category_path child)
              ~attrs:
                [ Vdom.Attr.classes [ "btn"; "btn-primary"; "mx-2"; "my-1" ] ]
              ~children:(Vdom.Node.text child))
@@ -89,6 +87,10 @@ let display_products (products : G.Queries.ProductListingFields.t array) =
              [
                Templates.bullet "Price" product.price;
                Templates.bullet "Quantity" (Int.to_string product.quantity);
+               Route.link_path_vdom
+                 (Util.product_path product.id)
+                 ~attrs:[ Vdom.Attr.classes [ "btn"; "btn-secondary" ] ]
+                 ~children:(Vdom.Node.text "Details");
              ]);
       ]
   in

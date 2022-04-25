@@ -9,7 +9,7 @@ module ProductListing: sig
         price: string;
         quantity: int;
       }
-    type key = string
+    type key = int
     type fields = (int * string * string * string) * (string * string * string * int)
 
     include Model_intf.SingleKeyModel with type t := t and type key := key and type fields := fields

@@ -13,14 +13,14 @@ module ProductListing = struct
   }
   [@@deriving fields, csv]
 
-  type key = string
+  type key = int
 
   type fields =
     (int * string * string * string) * (string * string * string * int)
 
   let table_name = "productlisting"
   let key_field = "listing_id"
-  let caqti_key_type = Caqti_type.string
+  let caqti_key_type = Caqti_type.int
 
   let caqti_types =
     Caqti_type.(
