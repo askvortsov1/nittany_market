@@ -71,7 +71,7 @@ module Make_SingleKeyModelRepository (M : SingleKeyModel) = struct
   let get id =
     let query =
       (M.caqti_key_type -->? M.caqti_types)
-      @:- Printf.sprintf "SELECT * FROM %s WHERE %s=?" M.table_name M.key_field
+      @:- Printf.sprintf "SELECT * FROM %s WHERE LOWER(%s)=LOWER(?)" M.table_name M.key_field
     in
     fun (module Db : Caqti_lwt.CONNECTION) ->
       let%lwt unit_or_error = Db.find_opt query id in
