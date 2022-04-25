@@ -205,4 +205,14 @@ let schema =
               Lwt_result.ok (Util.login info.ctx email password));
           io_field "logout" ~typ:(non_null bool) ~args:[]
             ~resolve:(fun info () -> Lwt_result.ok (Util.logout info.ctx));
+          io_field "change_password" ~typ:(non_null bool)
+            ~args:
+              Arg.
+                [
+                  arg "old_password" ~typ:(non_null string);
+                  arg "new_password" ~typ:(non_null string);
+                ]
+            ~resolve:(fun info () old_password new_password ->
+              Lwt_result.ok
+                (Util.change_password info.ctx old_password new_password));
         ])

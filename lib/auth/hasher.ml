@@ -34,4 +34,4 @@ let verify hash password =
   let result = Argon2.verify ~encoded:hash ~pwd:password ~kind:ID in
   match result with
   | Result.Ok matches -> matches
-  | Result.Error e -> failwith (Printf.sprintf "Error Verifying: %s" (Argon2.ErrorCodes.message e))
+  | Result.Error _ -> false

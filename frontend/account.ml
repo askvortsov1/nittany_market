@@ -15,6 +15,11 @@ let display_account_info (u : G.Queries.UserFields.t) =
     (Vdom.Node.text "Account Info")
     (Vdom.Node.div [ bullet "Email" u.email ])
 
+let display_change_password change_password =
+  Templates.card
+    (Vdom.Node.text "Change Password")
+    (Vdom.Node.div [ change_password ])
+
 let display_address title (addr : G.Queries.AddressFields.t option) =
   let fmt =
     match addr with
@@ -72,10 +77,12 @@ let display_credit_cards (cards : G.Queries.CreditCardFields.t array) =
       (Vdom.Node.ul (Array.map ~f:display_credit_card cards |> Array.to_list))
 
 let component (u : G.Queries.UserFields.t Value.t) =
-  let%arr u = u in
+  let%sub change_password = Change_password.component in
+  let%arr u = u and change_password = change_password in
   Vdom.Node.div
     [
       display_account_info u;
+      display_change_password change_password;
       display_opt display_buyer_profile u.buyer_profile;
       display_opt display_seller_profile u.seller_profile;
       display_opt display_vendor_profile u.vendor_profile;
