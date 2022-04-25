@@ -1,6 +1,6 @@
 open Bonsai_web
 
-let skeleton title body =
+let skeleton ?(nav=Vdom.Node.none) title body =
   Vdom.Node.div
     ~attr:(Vdom.Attr.classes [ "container"; "min-vh-100" ])
     [
@@ -17,6 +17,7 @@ let skeleton title body =
                     ~attr:(Vdom.Attr.classes [ "mb-3"; "text-light" ])
                     [ title ];
                 ];
+              nav;
               Vdom.Node.div
                 ~attr:
                   (Vdom.Attr.classes

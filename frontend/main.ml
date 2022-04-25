@@ -3,11 +3,11 @@ open! Bonsai_web
 open Bonsai.Let_syntax
 module G = Nittany_market_frontend_graphql
 
-let logged_in =
+let logged_in u =
   let title_router = function
     | path -> (
         match%sub path with
-        | "/" -> Bonsai.const @@ Vdom.Node.text "Home"
+        | "/" -> Bonsai.const @@ Vdom.Node.text "Nittany Market"
         | "/something" -> Bonsai.const @@ Vdom.Node.text "Home"
         | _ -> Bonsai.const @@ Vdom.Node.text "Not found")
   in
@@ -20,8 +20,8 @@ let logged_in =
         | _ -> Bonsai.const @@ Vdom.Node.text "Not found")
   in
   let body = Route.router body_router in
-  let%map.Computation title = title and body = body in
-  Templates.skeleton title body
+  let%map.Computation title = title and body = body and nav = Nav.component u in
+  Templates.skeleton title body ~nav
 
 let component =
   let module P = G.Queries.PayloadQuery in
@@ -31,7 +31,7 @@ let component =
         Value.map data ~f:(fun data -> data.payload.current_user)
       in
       match%sub current_user with
-      | Some _u -> logged_in
+      | Some u -> logged_in u
       | None -> Login.component) (G.Queries.PayloadQuery.makeVariables ())
 
 let (_ : _ Start.Handle.t) =
