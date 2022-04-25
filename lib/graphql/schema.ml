@@ -95,6 +95,28 @@ let vendor_profile =
                    (Models.Address.AddressRepository.get v.business_address_id)));
         ]))
 
+let credit_card =
+  Schema.(
+    obj "credit_card" ~fields:(fun _ ->
+        [
+          field "card_type"
+            ~args:Arg.[]
+            ~typ:(non_null string)
+            ~resolve:(fun _ (cc : Models.Creditcard.CreditCard.t) ->
+              cc.card_type);
+          field "expires"
+            ~args:Arg.[]
+            ~typ:(non_null string)
+            ~resolve:(fun _ (cc : Models.Creditcard.CreditCard.t) ->
+              Printf.sprintf "%.2d/%.2d" cc.expire_month cc.expire_year);
+          field "last_four_digits"
+            ~args:Arg.[]
+            ~typ:(non_null string)
+            ~resolve:(fun _ (cc : Models.Creditcard.CreditCard.t) ->
+              let len = String.length cc.credit_card_num in
+              String.sub cc.credit_card_num (len - 4) 4);
+        ]))
+
 let user =
   Schema.(
     obj "user" ~fields:(fun _ ->
@@ -123,6 +145,16 @@ let user =
               Lwt_result.ok
                 (Dream.sql info.ctx
                    (Models.Localvendor.LocalVendorRepository.get u.email)));
+          io_field "credit_cards"
+            ~args:Arg.[]
+            ~typ:(non_null (list (non_null credit_card)))
+            ~resolve:(fun info (u : Models.User.User.t) ->
+              let res =
+                Dream.sql info.ctx
+                  (Models.Creditcard.CreditCardRepository.query_owner_email
+                     u.email)
+              in
+              Lwt_result.ok res);
         ]))
 
 let payload =

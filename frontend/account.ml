@@ -57,6 +57,20 @@ let display_vendor_profile (prof : G.Queries.UserFields.t_vendor_profile) =
          display_address "Business Address" prof.business_address;
        ])
 
+let display_credit_card (card : G.Queries.CreditCardFields.t) =
+  let fmt =
+    Printf.sprintf "%s Card ending in %s, expires %s" card.card_type
+      card.last_four_digits card.expires
+  in
+  Vdom.Node.li [ Vdom.Node.text fmt ]
+
+let display_credit_cards (cards : G.Queries.CreditCardFields.t array) =
+  if Int.equal (Array.length cards) 0 then Vdom.Node.none
+  else
+    Templates.card
+      (Vdom.Node.text "Credit Cards")
+      (Vdom.Node.ul (Array.map ~f:display_credit_card cards |> Array.to_list))
+
 let component (u : G.Queries.UserFields.t Value.t) =
   let%arr u = u in
   Vdom.Node.div
@@ -65,4 +79,5 @@ let component (u : G.Queries.UserFields.t Value.t) =
       display_opt display_buyer_profile u.buyer_profile;
       display_opt display_seller_profile u.seller_profile;
       display_opt display_vendor_profile u.vendor_profile;
+      display_credit_cards u.credit_cards;
     ]

@@ -37,6 +37,16 @@ end
 
 [%graphql
   {|
+  fragment CreditCardFields on credit_card {
+    last_four_digits
+    expires
+    card_type
+  }
+|}]
+;;
+
+[%graphql
+  {|
   fragment AddressFields on address {
     zipcode
     street_num
@@ -72,6 +82,9 @@ end
         ...AddressFields
       }
       customer_service_number
+    }
+    credit_cards {
+      ...CreditCardFields
     }
   }
 |}]
