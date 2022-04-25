@@ -13,6 +13,7 @@ module T = struct
     product_description : string;
     price : string;
     quantity : int;
+    expires_at : Date.t;
   }
   [@@deriving sexp_of, typed_fields]
 
@@ -37,9 +38,13 @@ module T = struct
         E.Number.int [%here]
           ~extra_attrs:(Value.return [ Vdom.Attr.class_ "form-control" ])
           ~default:0 ~step:1 ()
+    | Expires_at ->
+        E.Date_time.date [%here]
+          ~extra_attrs:(Value.return [ Vdom.Attr.class_ "form-control" ])
 end
 
 let form = Form.Typed.Record.make (module T)
+let to_epoch date = Date.diff date Date.unix_epoch * 24 * 60 * 60
 
 let alert_effect =
   let module AddListing =
@@ -53,18 +58,22 @@ let alert_effect =
         (AddListing.makeVariables ~category_name:s.category ~title:s.title
            ~product_name:s.product_name
            ~product_description:s.product_description ~price:s.price
-           ~quantity:s.quantity ())
+           ~quantity:s.quantity ~expires_at:(to_epoch s.expires_at) ())
     in
     Lwt.map
       (fun resp ->
         let alert_err () =
           ignore
             (Js_of_ocaml.Dom_html.window##alert
-               (Js_of_ocaml.Js.string "Add Listing failed. Most likely, either data is missing or the category you entered does not exist."))
+               (Js_of_ocaml.Js.string
+                  "Add Listing failed. Most likely, either data is missing or \
+                   the category you entered does not exist."))
         in
         match resp with
         | Client.Success plid ->
-            ignore (Js_of_ocaml.Dom_html.window##.location##replace (Js_of_ocaml.Js.string (Util.product_path plid.add_listing)))
+            ignore
+              (Js_of_ocaml.Dom_html.window##.location##replace
+                 (Js_of_ocaml.Js.string (Util.product_path plid.add_listing)))
         | _ -> alert_err ())
       query
   in

@@ -8,9 +8,10 @@ module ProductListing: sig
         product_description : string;
         price: string;
         quantity: int;
+        expires_at: int option;
       }
     type key = int
-    type fields = (int * string * string * string) * (string * string * string * int)
+    type fields = (int * string * string * string) * (string * string * string * int) * (int option)
 
     include Model_intf.SingleKeyModel with type t := t and type key := key and type fields := fields
 end

@@ -10,13 +10,16 @@ module ProductListing = struct
     product_description : string;
     price : string;
     quantity : int;
+    expires_at : Csv.Csv_util.OptInt.t;
   }
   [@@deriving fields, csv]
 
   type key = int
 
   type fields =
-    (int * string * string * string) * (string * string * string * int)
+    (int * string * string * string)
+    * (string * string * string * int)
+    * int option
 
   let table_name = "productlisting"
   let key_field = "listing_id"
@@ -24,15 +27,18 @@ module ProductListing = struct
 
   let caqti_types =
     Caqti_type.(
-      tup2 (tup4 int string string string) (tup4 string string string int))
+      tup3
+        (tup4 int string string string)
+        (tup4 string string string int)
+        (option int))
 
   let caqtup_of_t pl =
     ( (pl.listing_id, pl.seller_email, pl.category, pl.title),
-      (pl.product_name, pl.product_description, pl.price, pl.quantity) )
+      (pl.product_name, pl.product_description, pl.price, pl.quantity), pl.expires_at )
 
   let t_of_caqtup
       ( (listing_id, seller_email, category, title),
-        (product_name, product_description, price, quantity) ) =
+        (product_name, product_description, price, quantity), expires_at ) =
     {
       listing_id;
       seller_email;
@@ -42,6 +48,7 @@ module ProductListing = struct
       product_description;
       price;
       quantity;
+      expires_at;
     }
 end
 

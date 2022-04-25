@@ -210,6 +210,19 @@ let product_listing =
             ~typ:(non_null string)
             ~resolve:(fun _info (pl : Models.Productlisting.ProductListing.t) ->
               pl.category);
+          field "expires_at"
+            ~args:Arg.[]
+            ~typ:int
+            ~resolve:(fun _info (pl : Models.Productlisting.ProductListing.t) ->
+              pl.expires_at);
+          field "is_seller"
+            ~args:Arg.[]
+            ~typ:(non_null bool)
+            ~resolve:(fun info (pl : Models.Productlisting.ProductListing.t) ->
+              let uid = Dream.session_field info.ctx "user_id" in
+              match uid with
+              | None -> false
+              | Some uid -> String.equal pl.seller_email uid);
           io_field "seller"
             ~args:Arg.[]
             ~typ:user
@@ -364,8 +377,11 @@ let schema =
                   arg "product_description" ~typ:(non_null string);
                   arg "price" ~typ:(non_null string);
                   arg "quantity" ~typ:(non_null int);
+                  arg "expires_at" ~typ:int;
                 ]
-            ~resolve:(fun info () cat title name desc price quantity ->
+            ~resolve:
+              (fun info () cat title name desc price quantity expires_at ->
               Lwt_result.ok
-                (Util.add_listing info.ctx cat title name desc price quantity));
+                (Util.add_listing info.ctx cat title name desc price quantity
+                   expires_at));
         ])

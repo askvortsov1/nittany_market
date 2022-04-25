@@ -29,7 +29,7 @@ let change_password req old_pass new_pass =
             Lwt.return true
           else raise Exn.Unauthorized)
 
-let add_listing req cat title name desc price quantity =
+let add_listing req cat title name desc price quantity expires_at =
   let uid = Dream.session_field req "user_id" in
   match uid with
   | None -> raise Exn.Forbidden
@@ -48,6 +48,7 @@ let add_listing req cat title name desc price quantity =
           title;
           price;
           quantity;
+          expires_at;
         }
       in
       let%lwt () =

@@ -203,6 +203,13 @@ CREATE TABLE review (
 )|};
       down = mig_exec {|DROP TABLE review|};
     };
+    {
+      up =
+        mig_exec
+          {|
+ALTER TABLE productlisting ADD expires_at INTEGER|};
+      down = mig_exec {|ALTER TABLE productlisting DROP COLUMN expires_at|};
+    };
   ]
 
 let migrate_up (module Db : DB) =

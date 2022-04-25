@@ -28,24 +28,32 @@ let display_reviews
       else Vdom.Node.text "No Reviews Found");
     ]
 
-let product_listing_card (listing: G.Queries.ProductListingFields.t_product_listing) =
+let product_listing_card
+    (listing : G.Queries.ProductListingFields.t_product_listing) =
   Vdom.Node.p
-  [
-    Vdom.Node.h2 [ Vdom.Node.text listing.title ];
-    Templates.bullet "Product Name" listing.product_name;
-    Templates.bullet "Product Description"
-      listing.product_description;
-    Templates.bullet "Price" listing.price;
-    Templates.bullet "Quantity"
-      (Int.to_string listing.quantity);
-    (match listing.seller with
-    | Some s -> Templates.bullet "Sold By" s.email
-    | None -> Vdom.Node.none);
-    Templates.bullet_vdom "Category"
-      (Route.link_path_vdom
-         (Util.category_path listing.category_name)
-         ~children:(Vdom.Node.text listing.category_name));
-  ]
+    ([
+       Vdom.Node.h2 [ Vdom.Node.text listing.title ];
+       Templates.bullet "Product Name" listing.product_name;
+       Templates.bullet "Product Description" listing.product_description;
+       Templates.bullet "Price" listing.price;
+       Templates.bullet "Quantity" (Int.to_string listing.quantity);
+       (match listing.seller with
+       | Some s -> Templates.bullet "Sold By" s.email
+       | None -> Vdom.Node.none);
+       Templates.bullet_vdom "Category"
+         (Route.link_path_vdom
+            (Util.category_path listing.category_name)
+            ~children:(Vdom.Node.text listing.category_name));
+     ]
+    @
+    if listing.is_seller then
+      [
+        Vdom.Node.hr ();
+        Vdom.Node.h5 [ Vdom.Node.text "Seller Information" ];
+        Templates.bullet "Expired?"
+          (Bool.to_string (Util.listing_expired listing.expires_at));
+      ]
+    else [])
 
 let display_product
     (product_listing :

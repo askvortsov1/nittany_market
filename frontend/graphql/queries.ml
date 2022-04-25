@@ -64,6 +64,8 @@ fragment ProductListingFields on product_listing {
   product_description
   price
   quantity
+  expires_at
+  is_seller
   seller {
     email
   }
@@ -210,8 +212,8 @@ fragment ProductListingFields on product_listing {
 ;;
 
 [%graphql
-{|
-mutation AddListingMutation($title: String!, $product_name: String!, $product_description: String!, $price: String!, $quantity: Int!, $category_name: String!) {
+  {|
+mutation AddListingMutation($title: String!, $product_name: String!, $product_description: String!, $price: String!, $quantity: Int!, $category_name: String!, $expires_at: Int!) {
   add_listing(
     title: $title
     product_name: $product_name
@@ -219,7 +221,7 @@ mutation AddListingMutation($title: String!, $product_name: String!, $product_de
     price: $price
     quantity: $quantity
     category: $category_name
+    expires_at: $expires_at
   ) @ppxAs(type: int)
 }
 |}]
-;;
