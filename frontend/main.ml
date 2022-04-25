@@ -8,15 +8,15 @@ let logged_in u =
     | path -> (
         match%sub path with
         | "/" -> Bonsai.const @@ Vdom.Node.text "Nittany Market"
-        | "/something" -> Bonsai.const @@ Vdom.Node.text "Home"
+        | "/account" -> Bonsai.const @@ Vdom.Node.text "My Account"
         | _ -> Bonsai.const @@ Vdom.Node.text "Not found")
   in
   let title = Route.router title_router in
   let body_router = function
     | path -> (
         match%sub path with
-        | "/" -> Route.path_link ~children:(Bonsai.const @@ Vdom.Node.text "Account") "/account"
-        | "/account" -> Route.path_link ~children:(Bonsai.const @@ Vdom.Node.text "Home") "/"
+        | "/" -> Bonsai.const @@ Vdom.Node.text "Welcome to Nittany Market!"
+        | "/account" -> Account.component u
         | _ -> Bonsai.const @@ Vdom.Node.text "Not found")
   in
   let body = Route.router body_router in

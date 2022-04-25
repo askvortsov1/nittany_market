@@ -10,10 +10,10 @@ module type Query = sig
   val query : string
   val parse : Raw.t -> t
   val serialize : t -> Raw.t
-  val serializeVariables: t_variables -> Raw.t_variables
+  val serializeVariables : t_variables -> Raw.t_variables
   val unsafe_fromJson : Yojson.Basic.t -> Raw.t
   val toJson : Raw.t -> Yojson.Basic.t
-  val variablesToJson: Raw.t_variables -> Yojson.Basic.t
+  val variablesToJson : Raw.t_variables -> Yojson.Basic.t
 end
 
 module SerializableQuery (Q : Query) = struct
@@ -30,8 +30,39 @@ module SerializableQuery (Q : Query) = struct
   let equal a b = Sexplib0.Sexp.equal (sexp_of_t a) (sexp_of_t b)
 
   let yojson_of_t_variables vars =
-    vars |> serializeVariables |> Q.variablesToJson |> Yojson.Basic.to_string |> Yojson.Safe.from_string
+    vars |> serializeVariables |> Q.variablesToJson |> Yojson.Basic.to_string
+    |> Yojson.Safe.from_string
 end
+;;
+
+[%graphql
+  {|
+  fragment AddressFields on address {
+    zipcode
+    street_num
+    street_name
+  }
+|}]
+;;
+
+[%graphql
+  {|
+  fragment UserFields on user {
+    email
+    buyer_profile {
+      first_name
+      last_name
+      gender
+      age
+      home_address {
+        ...AddressFields
+      }
+      billing_address {
+        ...AddressFields
+      }
+    }
+  }
+|}]
 ;;
 
 [%graphql
@@ -39,7 +70,7 @@ end
   query PayloadQuery {
     payload {
       current_user {
-        email
+        ...UserFields
       }
       csrf_token
     }
@@ -63,11 +94,8 @@ end
 |}]
 ;;
 
-[%graphql
-  {|
+[%graphql {|
   mutation LogoutMutation {
     logout
   }
 |}]
-;;
-

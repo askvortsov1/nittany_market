@@ -21,7 +21,7 @@ let logout_button =
            Vdom.Attr.on_click (fun _ -> logout_effect ());
          ])
 
-let component (u : G.Queries.PayloadQuery.t_payload_current_user Value.t) =
+let component (u : G.Queries.UserFields.t Value.t) =
   let%sub home_link =
     Route.path_link
       ~children:(Bonsai.const @@ Vdom.Node.text "Home")

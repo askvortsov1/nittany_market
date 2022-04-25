@@ -1,6 +1,7 @@
+open! Core
 open Bonsai_web
 
-let skeleton ?(nav=Vdom.Node.none) title body =
+let skeleton ?(nav = Vdom.Node.none) title body =
   Vdom.Node.div
     ~attr:(Vdom.Attr.classes [ "container"; "min-vh-100" ])
     [
@@ -25,6 +26,15 @@ let skeleton ?(nav=Vdom.Node.none) title body =
                 [ body ];
             ];
         ];
+    ]
+
+
+let card title body =
+  Vdom.Node.div ~attr:(Vdom.Attr.class_ "card")
+    [
+      Vdom.Node.div
+        ~attr:(Vdom.Attr.class_ "card-body")
+        [ Vdom.Node.h5 ~attr:(Vdom.Attr.class_ "card-title") [ title ]; body ];
     ]
 
 let not_found =
