@@ -225,3 +225,20 @@ mutation AddListingMutation($title: String!, $product_name: String!, $product_de
   ) @ppxAs(type: int)
 }
 |}]
+;;
+
+[%graphql
+  {|
+mutation UpdateListingMutation($id: Int!, $title: String!, $product_name: String!, $product_description: String!, $price: String!, $quantity: Int!, $category_name: String!, $expires_at: Int!) {
+  update_listing(
+    id: $id
+    title: $title
+    product_name: $product_name
+    product_description: $product_description
+    price: $price
+    quantity: $quantity
+    category: $category_name
+    expires_at: $expires_at
+  ) @ppxAs(type: int)
+}
+|}]

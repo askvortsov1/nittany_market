@@ -55,3 +55,34 @@ let add_listing req cat title name desc price quantity expires_at =
         Dream.sql req (Models.Productlisting.ProductListingRepository.add l)
       in
       Lwt.return (max_id + 1)
+
+let update_listing req id cat title name desc price quantity expires_at =
+  let uid = Dream.session_field req "user_id" in
+  match uid with
+  | None -> raise Exn.NotFound
+  | Some uid -> (
+      let%lwt listing =
+        Dream.sql req (Models.Productlisting.ProductListingRepository.get id)
+      in
+      match listing with
+      | None -> raise Exn.NotFound
+      | Some listing ->
+          if String.equal uid listing.seller_email then
+            let l =
+              {
+                listing with
+                category = cat;
+                product_name = name;
+                product_description = desc;
+                title;
+                price;
+                quantity;
+                expires_at;
+              }
+            in
+            let%lwt () =
+              Dream.sql req
+                (Models.Productlisting.ProductListingRepository.update id l)
+            in
+            Lwt.return id
+          else raise Exn.Forbidden)

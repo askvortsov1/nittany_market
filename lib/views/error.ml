@@ -24,6 +24,7 @@ let handle_exn _req suggested_response (err : exn) =
   match err with
   | Nmgraphql.Exn.Unauthorized -> Dream.respond ~status:`Unauthorized ""
   | Nmgraphql.Exn.Forbidden -> Dream.respond ~status:`Forbidden ""
+  | Nmgraphql.Exn.NotFound -> Dream.respond ~status:`Not_Found ""
   | _ ->
       Dream.set_status suggested_response `Internal_Server_Error;
       Lwt.return suggested_response

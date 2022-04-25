@@ -384,4 +384,22 @@ let schema =
               Lwt_result.ok
                 (Util.add_listing info.ctx cat title name desc price quantity
                    expires_at));
+          io_field "update_listing" ~typ:(non_null int)
+            ~args:
+              Arg.
+                [
+                  arg "id" ~typ:(non_null int);
+                  arg "category" ~typ:(non_null string);
+                  arg "title" ~typ:(non_null string);
+                  arg "product_name" ~typ:(non_null string);
+                  arg "product_description" ~typ:(non_null string);
+                  arg "price" ~typ:(non_null string);
+                  arg "quantity" ~typ:(non_null int);
+                  arg "expires_at" ~typ:int;
+                ]
+            ~resolve:
+              (fun info () id cat title name desc price quantity expires_at ->
+              Lwt_result.ok
+                (Util.update_listing info.ctx id cat title name desc price quantity
+                   expires_at));
         ])

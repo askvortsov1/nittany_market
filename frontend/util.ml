@@ -3,6 +3,7 @@ open! Bonsai_web
 
 let product_path pid = Printf.sprintf "/products/%d" pid
 let category_path cname = Printf.sprintf "/browse/%s" cname
+let edit_listing_path pid = Printf.sprintf "/edit_listing/%d" pid
 
 let date_of_epoch stamp =
   let default_stamp = match stamp with Some s -> s | None -> 0 in

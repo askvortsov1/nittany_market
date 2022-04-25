@@ -19,6 +19,7 @@ end
 module ProductListingRepository: sig
     include Model_intf.SingleKeyModelRepository with type t := ProductListing.t and type key = ProductListing.key
 
+    val update : key -> ProductListing.t -> (module Caqti_lwt.CONNECTION) -> unit Lwt.t  
     val query_category: string -> (module Caqti_lwt.CONNECTION) -> ProductListing.t list Lwt.t
     val query_seller_email: string -> (module Caqti_lwt.CONNECTION) -> ProductListing.t list Lwt.t
     val get_max_id: unit -> (module Caqti_lwt.CONNECTION) -> int Lwt.t

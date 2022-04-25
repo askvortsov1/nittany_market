@@ -52,6 +52,9 @@ let product_listing_card
         Vdom.Node.h5 [ Vdom.Node.text "Seller Information" ];
         Templates.bullet "Expired?"
           (Bool.to_string (Util.listing_expired listing.expires_at));
+        Route.link_path_vdom (Util.edit_listing_path listing.id)
+          ~attrs:[Vdom.Attr.classes ["btn"; "btn-secondary"]]
+          ~children:(Vdom.Node.text "Edit Listing");
       ]
     else [])
 
@@ -84,3 +87,4 @@ let component =
            ~id:(Int.of_string (deoptionize @@ get_slug v))
            ())
        Route.curr_path)
+       ~trigger:(Route.curr_path)

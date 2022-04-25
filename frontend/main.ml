@@ -14,6 +14,7 @@ let logged_in u =
         | [ "products" ] | [ "products"; _ ] ->
             Bonsai.const @@ Vdom.Node.text "Product Details"
         | [ "add_listing" ] -> Bonsai.const @@ Vdom.Node.text "New Listing"
+        | [ "edit_listing"; _] -> Bonsai.const @@ Vdom.Node.text "Edit Listing"
         | [ "my_listings" ] -> Bonsai.const @@ Vdom.Node.text "My Listings"
         | _ -> Bonsai.const @@ Vdom.Node.text "Not found")
   in
@@ -26,6 +27,7 @@ let logged_in u =
         | [ "browse" ] | [ "browse"; _ ] -> Browse.component
         | [ "products" ] | [ "products"; _ ] -> View_product.component
         | [ "add_listing" ] -> Mutate_product.component u
+        | [ "edit_listing"; _] -> Mutate_product.component u
         | [ "my_listings" ] -> My_listings.component u
         | _ -> Bonsai.const @@ Vdom.Node.text "Not found")
   in

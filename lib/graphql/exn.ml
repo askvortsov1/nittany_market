@@ -1,2 +1,3 @@
 exception Unauthorized
 exception Forbidden
+exception NotFound

@@ -34,11 +34,13 @@ module ProductListing = struct
 
   let caqtup_of_t pl =
     ( (pl.listing_id, pl.seller_email, pl.category, pl.title),
-      (pl.product_name, pl.product_description, pl.price, pl.quantity), pl.expires_at )
+      (pl.product_name, pl.product_description, pl.price, pl.quantity),
+      pl.expires_at )
 
   let t_of_caqtup
       ( (listing_id, seller_email, category, title),
-        (product_name, product_description, price, quantity), expires_at ) =
+        (product_name, product_description, price, quantity),
+        expires_at ) =
     {
       listing_id;
       seller_email;
@@ -96,4 +98,27 @@ module ProductListingRepository = struct
     fun (module Db : Caqti_lwt.CONNECTION) ->
       let%lwt unit_or_error = Db.find query () in
       Caqti_lwt.or_fail unit_or_error
+
+  let update key (p : ProductListing.t) (module Db : Caqti_lwt.CONNECTION) =
+    let query =
+      Caqti_type.(
+        tup2
+          (tup2
+             (tup4 string string string string)
+             (tup3 string int (option int)))
+          int
+        -->. Caqti_type.unit)
+      @:- Printf.sprintf
+            "UPDATE %s SET category=?, title=?, product_name=?, \
+             product_description=?, price=?, quantity=?, expires_at=? WHERE \
+             listing_id=?"
+            ProductListing.table_name
+    in
+    let%lwt unit_or_error =
+      Db.exec query
+        ( ( (p.category, p.title, p.product_name, p.product_description),
+            (p.price, p.quantity, p.expires_at) ),
+          key )
+    in
+    Caqti_lwt.or_fail unit_or_error
 end
