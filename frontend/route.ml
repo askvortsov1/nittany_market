@@ -13,12 +13,11 @@ let set_uri uri =
   Dom_html.window##.history##pushState Js.null str_uri (Js.Opt.return str_uri);
   Bonsai.Var.set uri_atom uri
 
-let curr_path = uri_atom |> Bonsai.Var.get |> Uri.path |> Value.return
+let curr_path_novalue () = uri_atom |> Bonsai.Var.get |> Uri.path
+let curr_path = Bonsai.Var.value uri_atom |> Value.map ~f:Uri.path_and_query
 let empty = Bonsai.const @@ Vdom.Node.text ""
 
-let link ?(attrs = []) ?(children = empty) uri =
-  let%sub children = children in
-  let%arr children = children in
+let link_vdom ?(attrs = []) ?(children = Vdom.Node.none) uri =
   let set_uri = Effect.of_sync_fun (fun new_uri -> set_uri new_uri) in
   let link_attrs =
     [
@@ -30,10 +29,22 @@ let link ?(attrs = []) ?(children = empty) uri =
   in
   Vdom.Node.a ~attr:(Vdom.Attr.many (attrs @ link_attrs)) [ children ]
 
-let path_link ?(attrs = []) ?(children = empty) path =
-  let curr = get_uri () in
-  let uri = Uri.with_path curr path in
-  link ~attrs ~children uri
+let link_path_vdom ?(attrs = []) ?(children = Vdom.Node.none) path =
+  let uri =
+    let curr = get_uri () in
+    Uri.with_path curr path
+  in
+  link_vdom ~attrs ~children uri
+
+let link ?(attrs = []) ?(children = empty) uri =
+  let%sub children = children in
+  let%arr children = children and uri = uri in
+  link_vdom ~attrs ~children uri
+
+let link_path ?(attrs = []) ?(children = empty) path =
+  let%sub children = children in
+  let%arr children = children and path = path in
+  link_path_vdom ~attrs ~children path
 
 let router routes =
   let uri = Bonsai.Var.value uri_atom in

@@ -23,15 +23,27 @@ let logout_button =
 
 let component (u : G.Queries.UserFields.t Value.t) =
   let%sub home_link =
-    Route.path_link
+    Route.link_path
       ~children:(Bonsai.const @@ Vdom.Node.text "Home")
       ~attrs:[ Vdom.Attr.class_ "navbar-brand" ]
-      "/"
+      (Value.return "/")
   in
   let%sub account_link =
-    Route.path_link ~children:(Bonsai.const @@ Vdom.Node.text "My Account") ~attrs:[ Vdom.Attr.class_ "nav-link" ] "/account"
+    Route.link_path
+      ~children:(Bonsai.const @@ Vdom.Node.text "My Account")
+      ~attrs:[ Vdom.Attr.class_ "nav-link" ]
+      (Value.return "/account")
   in
-  let%arr u = u and home_link = home_link and account_link = account_link in
+  let%sub browse_link =
+    Route.link_path
+      ~children:(Bonsai.const @@ Vdom.Node.text "Browse")
+      ~attrs:[ Vdom.Attr.class_ "nav-link" ]
+      (Value.return "/browse")
+  in
+  let%arr u = u
+  and home_link = home_link
+  and account_link = account_link
+  and browse_link = browse_link in
   let wrap_link link =
     Vdom.Node.li ~attr:(Vdom.Attr.classes [ "nav-item" ]) [ link ]
   in
@@ -46,7 +58,7 @@ let component (u : G.Queries.UserFields.t Value.t) =
         [
           Vdom.Node.ul
             ~attr:(Vdom.Attr.classes [ "navbar-nav"; "mr-auto" ])
-            [ wrap_link account_link ];
+            [ wrap_link account_link; wrap_link browse_link ];
         ];
       Vdom.Node.span
         ~attr:(Vdom.Attr.class_ "navbar-text")
