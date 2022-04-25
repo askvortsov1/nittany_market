@@ -197,3 +197,19 @@ fragment ProductListingFields on product_listing {
     change_password(old_password: $old_pass, new_password: $new_pass)
   }
 |}]
+;;
+
+[%graphql
+{|
+mutation AddListingMutation($title: String!, $product_name: String!, $product_description: String!, $price: String!, $quantity: Int!, $category_name: String!) {
+  add_listing(
+    title: $title
+    product_name: $product_name
+    product_description: $product_description
+    price: $price
+    quantity: $quantity
+    category: $category_name
+  ) @ppxAs(type: int)
+}
+|}]
+;;

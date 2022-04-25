@@ -45,11 +45,11 @@ module Make_ModelRepository (M : Model) = struct
 
   let add x (module Db : Caqti_lwt.CONNECTION) =
     let query =
-      (M.caqti_types -->! Caqti_type.unit)
+      (M.caqti_types -->. Caqti_type.unit)
       @:- Printf.sprintf "INSERT INTO %s VALUES (%s)" M.table_name
             prepared_pattern
     in
-    let%lwt unit_or_error = Db.find query (M.caqtup_of_t x) in
+    let%lwt unit_or_error = Db.exec query (M.caqtup_of_t x) in
     Caqti_lwt.or_fail unit_or_error
 
   let all () =

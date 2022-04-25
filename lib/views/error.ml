@@ -1,6 +1,5 @@
 open Jingoo
 
-
 let handle_general req suggested_response =
   match req with
   | Some req ->
@@ -21,11 +20,13 @@ let handle_general req suggested_response =
 let handle_string req suggested_response _str =
   handle_general req suggested_response
 
-let handle_exn req suggested_response (err: exn) =
+let handle_exn _req suggested_response (err : exn) =
   match err with
   | Nmgraphql.Exn.Unauthorized -> Dream.respond ~status:`Unauthorized ""
   | Nmgraphql.Exn.Forbidden -> Dream.respond ~status:`Forbidden ""
-  | _ -> Dream.log "EFDSFDS"; handle_general req suggested_response
+  | _ ->
+      Dream.set_status suggested_response `Internal_Server_Error;
+      Lwt.return suggested_response
 
 let error_handler =
   Dream.error_template (fun error _debug_dump suggested_response ->

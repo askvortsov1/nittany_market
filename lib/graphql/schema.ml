@@ -344,4 +344,18 @@ let schema =
             ~resolve:(fun info () old_password new_password ->
               Lwt_result.ok
                 (Util.change_password info.ctx old_password new_password));
+                io_field "add_listing" ~typ:(non_null int)
+                  ~args:
+                    Arg.
+                      [
+                        arg "category" ~typ:(non_null string);
+                        arg "title" ~typ:(non_null string);
+                        arg "product_name" ~typ:(non_null string);
+                        arg "product_description" ~typ:(non_null string);
+                        arg "price" ~typ:(non_null string);
+                        arg "quantity" ~typ:(non_null int);
+                      ]
+                  ~resolve:(fun info () cat title name desc price quantity ->
+                    Lwt_result.ok
+                      (Util.add_listing info.ctx cat title name desc price quantity));
         ])
