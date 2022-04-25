@@ -57,6 +57,19 @@ end
 
 [%graphql
   {|
+fragment ProductListingFields on product_listing {
+  id
+  title
+  product_name
+  product_description
+  price
+  quantity
+}
+|}]
+;;
+
+[%graphql
+  {|
   fragment UserFields on user {
     email
     buyer_profile {
@@ -111,7 +124,8 @@ end
   }
 |}];;
 
-[%graphql {|
+[%graphql
+  {|
   query CategoryQuery($id: String!) {
     category(id: $id) {
       name
@@ -121,12 +135,16 @@ end
       children {
         name
       }
+      listings {
+        ...ProductListingFields
+      }
     }
   }
-|}];;
+|}]
+;;
 
-
-[%graphql {|
+[%graphql
+  {|
   query CategoriesQuery {
     categories {
       name
@@ -138,7 +156,8 @@ end
       }
     }
   }
-|}];;
+|}]
+;;
 
 [%graphql
   {|
@@ -152,8 +171,7 @@ end
   mutation LogoutMutation {
     logout
   }
-|}]
-;;
+|}];;
 
 [%graphql
   {|
@@ -161,5 +179,3 @@ end
     change_password(old_password: $old_pass, new_password: $new_pass)
   }
 |}]
-;;
-

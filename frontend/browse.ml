@@ -55,7 +55,7 @@ let display_children ?(root = false) (children : string array) =
   if Int.equal (List.length contents) 0 then Vdom.Node.none
   else
     Vdom.Node.div
-      ~attr:(Vdom.Attr.classes [ "px-3"; "py-2" ])
+      ~attr:(Vdom.Attr.classes [ "px-5"; "py-2" ])
       [
         (if root then Vdom.Node.h2 [ Vdom.Node.text "Categories" ]
         else Vdom.Node.h5 [ Vdom.Node.text "Subcategories" ]);
@@ -78,6 +78,30 @@ let child_names ?cname (all : G.Queries.CategoriesQuery.t_categories array) =
           c.children |> Array.map ~f:(fun c -> c.name)
       | None -> Array.of_list [])
 
+let display_products (products : G.Queries.ProductListingFields.t array) =
+  let product_card (product : G.Queries.ProductListingFields.t) =
+    Vdom.Node.div
+      ~attr:(Vdom.Attr.classes [ "col-4"; "px-3"; "py-2" ])
+      [
+        Templates.card
+          (Vdom.Node.text product.title)
+          (Vdom.Node.div
+             [
+               Templates.bullet "Price" product.price;
+               Templates.bullet "Quantity" (Int.to_string product.quantity);
+             ]);
+      ]
+  in
+  let product_cards = products |> Array.map ~f:product_card |> Array.to_list in
+  Vdom.Node.div
+    ~attr:(Vdom.Attr.classes [ "px-5"; "px-3" ])
+    [
+      Vdom.Node.h2 [ Vdom.Node.text "Products" ];
+      (if List.length product_cards > 0 then
+       Vdom.Node.div ~attr:(Vdom.Attr.classes [ "row" ]) product_cards
+      else Vdom.Node.text "No products found in this exact category.");
+    ]
+
 let display_category all
     (category : G.Queries.CategoryQuery.t_category option Value.t) =
   let%sub breadcrumbs = breadcrumbs all category in
@@ -91,6 +115,9 @@ let display_category all
   and children = children
   and category = category in
   let cname = match category with Some c -> c.name | None -> "" in
+  let products =
+    match category with Some c -> c.listings | None -> Array.of_list []
+  in
   Vdom.Node.div
     [
       breadcrumbs;
@@ -98,6 +125,7 @@ let display_category all
       Vdom.Node.h2 [ Vdom.Node.text cname ];
       display_children ~root:(Option.is_none category) children;
       Vdom.Node.hr ();
+      display_products products;
     ]
 
 let display_root (all : G.Queries.CategoriesQuery.t_categories array Value.t) =

@@ -157,6 +157,56 @@ let user =
               Lwt_result.ok res);
         ]))
 
+let product_listing =
+  Schema.(
+    obj "product_listing" ~fields:(fun _ ->
+        [
+          field "id"
+            ~args:Arg.[]
+            ~typ:(non_null int)
+            ~resolve:(fun _info (pl : Models.Productlisting.ProductListing.t) ->
+              pl.listing_id);
+          field "title"
+            ~args:Arg.[]
+            ~typ:(non_null string)
+            ~resolve:(fun _info (pl : Models.Productlisting.ProductListing.t) ->
+              pl.title);
+          field "product_name"
+            ~args:Arg.[]
+            ~typ:(non_null string)
+            ~resolve:(fun _info (pl : Models.Productlisting.ProductListing.t) ->
+              pl.product_name);
+          field "product_description"
+            ~args:Arg.[]
+            ~typ:(non_null string)
+            ~resolve:(fun _info (pl : Models.Productlisting.ProductListing.t) ->
+              pl.product_description);
+          field "price"
+            ~args:Arg.[]
+            ~typ:(non_null string)
+            ~resolve:(fun _info (pl : Models.Productlisting.ProductListing.t) ->
+              pl.price);
+          field "quantity"
+            ~args:Arg.[]
+            ~typ:(non_null int)
+            ~resolve:(fun _info (pl : Models.Productlisting.ProductListing.t) ->
+              pl.quantity);
+          field "category_name"
+            ~args:Arg.[]
+            ~typ:(non_null string)
+            ~resolve:(fun _info (pl : Models.Productlisting.ProductListing.t) ->
+              pl.category);
+          io_field "seller"
+            ~args:Arg.[]
+            ~typ:user
+            ~resolve:(fun info (pl : Models.Productlisting.ProductListing.t) ->
+              let res =
+                Dream.sql info.ctx
+                  (Models.User.UserRepository.get pl.seller_email)
+              in
+              Lwt_result.ok res);
+        ]))
+
 let category =
   Schema.(
     obj "category" ~fields:(fun category ->
@@ -166,6 +216,14 @@ let category =
             ~typ:(non_null string)
             ~resolve:(fun _info (c : Models.Category.Category.t) ->
               c.category_name);
+          io_field "listings"
+            ~args:Arg.[]
+            ~typ:(non_null (list (non_null product_listing)))
+            ~resolve:(fun info (c : Models.Category.Category.t) ->
+              Lwt_result.ok
+                (Dream.sql info.ctx
+                   (Models.Productlisting.ProductListingRepository
+                    .query_category c.category_name)));
           io_field "parent"
             ~args:Arg.[]
             ~typ:category

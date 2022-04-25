@@ -28,13 +28,17 @@ let skeleton ?(nav = Vdom.Node.none) title body =
         ];
     ]
 
-
-let card ?(extra_classes=[]) title body =
+let card ?(extra_classes = []) title body =
   Vdom.Node.div ~attr:(Vdom.Attr.class_ "card")
     [
       Vdom.Node.div
         ~attr:(Vdom.Attr.class_ "card-body")
-        [ Vdom.Node.h5 ~attr:(Vdom.Attr.classes ("card-title" :: extra_classes)) [ title ]; body ];
+        [
+          Vdom.Node.h5
+            ~attr:(Vdom.Attr.classes ("card-title" :: extra_classes))
+            [ title ];
+          body;
+        ];
     ]
 
 let not_found =
@@ -47,3 +51,10 @@ let not_found =
              [ Vdom.Attr.href "/"; Vdom.Attr.classes [ "btn"; "btn-primary" ] ])
         [ Vdom.Node.text "Return To Home" ];
     ]
+
+let display_opt component v =
+  match v with None -> Vdom.Node.none | Some v -> component v
+
+let bullet key value =
+  Vdom.Node.li
+    [ Vdom.Node.strong [ Vdom.Node.textf "%s: " key ]; Vdom.Node.text value ]

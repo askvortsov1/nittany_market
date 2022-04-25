@@ -3,12 +3,7 @@ open! Bonsai_web
 open Bonsai.Let_syntax
 module G = Nittany_market_frontend_graphql
 
-let display_opt component v =
-  match v with None -> Vdom.Node.none | Some v -> component v
-
-let bullet key value =
-  Vdom.Node.li
-    [ Vdom.Node.strong [ Vdom.Node.textf "%s: " key ]; Vdom.Node.text value ]
+open Templates
 
 let display_account_info (u : G.Queries.UserFields.t) =
   Templates.card

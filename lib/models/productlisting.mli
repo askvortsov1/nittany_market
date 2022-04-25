@@ -17,4 +17,6 @@ end
 
 module ProductListingRepository: sig
     include Model_intf.SingleKeyModelRepository with type t := ProductListing.t and type key = ProductListing.key
+
+    val query_category: string -> (module Caqti_lwt.CONNECTION) -> ProductListing.t list Lwt.t
 end
