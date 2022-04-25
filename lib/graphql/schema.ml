@@ -157,6 +157,34 @@ let user =
               Lwt_result.ok res);
         ]))
 
+let category =
+  Schema.(
+    obj "category" ~fields:(fun category ->
+        [
+          field "name"
+            ~args:Arg.[]
+            ~typ:(non_null string)
+            ~resolve:(fun _info (c : Models.Category.Category.t) ->
+              c.category_name);
+          io_field "parent"
+            ~args:Arg.[]
+            ~typ:category
+            ~resolve:(fun info (c : Models.Category.Category.t) ->
+              Lwt_result.ok
+                (Dream.sql info.ctx
+                   (Models.Category.CategoryRepository.get c.parent_category)));
+          io_field "children"
+            ~args:Arg.[]
+            ~typ:(non_null (list (non_null category)))
+            ~resolve:(fun info (c : Models.Category.Category.t) ->
+              let res =
+                Dream.sql info.ctx
+                  (Models.Category.CategoryRepository.query_parent_category
+                     c.category_name)
+              in
+              Lwt_result.ok res);
+        ]))
+
 let payload =
   Schema.(
     obj "payload" ~fields:(fun _ ->
@@ -191,6 +219,18 @@ let schema =
           ~resolve:(fun info () ->
             Lwt_result.ok
               (Dream.sql info.ctx (Models.User.UserRepository.all ())));
+        io_field "category"
+          ~args:Arg.[ arg "id" ~typ:(non_null string) ]
+          ~typ:category
+          ~resolve:(fun info () name ->
+            Lwt_result.ok
+              (Dream.sql info.ctx (Models.Category.CategoryRepository.get name)));
+        io_field "categories"
+          ~args:Arg.[]
+          ~typ:(non_null (list (non_null category)))
+          ~resolve:(fun info () ->
+            Lwt_result.ok
+              (Dream.sql info.ctx (Models.Category.CategoryRepository.all ())));
       ]
       ~mutations:
         [

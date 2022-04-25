@@ -111,6 +111,35 @@ end
   }
 |}];;
 
+[%graphql {|
+  query CategoryQuery($id: String!) {
+    category(id: $id) {
+      name
+      parent {
+        name
+      }
+      children {
+        name
+      }
+    }
+  }
+|}];;
+
+
+[%graphql {|
+  query CategoriesQuery {
+    categories {
+      name
+      parent {
+        name
+      }
+      children {
+        name
+      }
+    }
+  }
+|}];;
+
 [%graphql
   {|
   mutation LoginMutation($email: String!, $password: String!) {

@@ -8,4 +8,6 @@ end
 
 module CategoryRepository: sig
     include Model_intf.SingleKeyModelRepository with type t := Category.t and type key = Category.key
+
+    val query_parent_category: string -> (module Caqti_lwt.CONNECTION) -> Category.t list Lwt.t
 end
