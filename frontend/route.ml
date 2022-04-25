@@ -13,6 +13,7 @@ let set_uri uri =
   Dom_html.window##.history##pushState Js.null str_uri (Js.Opt.return str_uri);
   Bonsai.Var.set uri_atom uri
 
+let curr_path = uri_atom |> Bonsai.Var.get |> Uri.path |> Value.return
 let empty = Bonsai.const @@ Vdom.Node.text ""
 
 let link ?(attrs = []) ?(children = empty) uri =

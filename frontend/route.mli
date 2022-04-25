@@ -2,6 +2,9 @@ open Bonsai_web
 
 (* TODO: at some point in the future, this should be functorized, with variant types for the routes. *)
 
+
+val curr_path: string Value.t
+
 (* A component used to link to internal pages in the SPA.
  *  TODO: support both internal and external links. *)
 val link :
