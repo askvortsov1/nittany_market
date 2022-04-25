@@ -7,3 +7,7 @@ let login req email password =
         Lwt.return true
       else Lwt.return false
   | None -> Lwt.return false
+
+let logout req =
+  let%lwt () = Dream.invalidate_session req in
+  Lwt.return true

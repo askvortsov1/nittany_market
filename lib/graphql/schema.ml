@@ -34,7 +34,10 @@ let schema =
   Schema.(
     schema
       [
-        field "payload" ~args:Arg.[] ~typ:(non_null payload) ~resolve:(fun _ _ -> ());
+        field "payload"
+          ~args:Arg.[]
+          ~typ:(non_null payload)
+          ~resolve:(fun _ _ -> ());
         io_field "users"
           ~args:Arg.[]
           ~typ:(non_null (list (non_null user)))
@@ -53,4 +56,6 @@ let schema =
                 ]
             ~resolve:(fun info () email password ->
               Lwt_result.ok (Util.login info.ctx email password));
+          io_field "logout" ~typ:(non_null bool) ~args:[]
+            ~resolve:(fun info () -> Lwt_result.ok (Util.logout info.ctx));
         ])

@@ -63,3 +63,11 @@ end
 |}]
 ;;
 
+[%graphql
+  {|
+  mutation LogoutMutation {
+    logout
+  }
+|}]
+;;
+
