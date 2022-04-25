@@ -22,12 +22,18 @@ module CategoryRepository = struct
 
   let query_parent_category name =
     let query =
-      (Caqti_type.string -->* Category.caqti_types)
-      @:- Printf.sprintf "SELECT * FROM %s WHERE %s=?" Category.table_name
-            "parent_category"
+      (Caqti_type.(tup2 string string) -->* Category.caqti_types)
+      @:- Printf.sprintf "SELECT * FROM %s WHERE LOWER(%s)=LOWER(?) OR LOWER(%s)=LOWER(?)" Category.table_name
+            "parent_category" "parent_category"
     in
     fun (module Db : Caqti_lwt.CONNECTION) ->
-      let%lwt unit_or_error = Db.collect_list query name in
+      let name_and =
+        Re.replace_string (Re.str " and " |> Re.compile) ~by:" ? " name
+      in
+      let name_ampersand =
+        Re.replace_string (Re.str " ? " |> Re.compile) ~by:" and " name
+      in
+      let%lwt unit_or_error = Db.collect_list query (name_and, name_ampersand) in
       let raw = Caqti_lwt.or_fail unit_or_error in
       Lwt.map (List.map Category.t_of_caqtup) raw
 end
