@@ -40,7 +40,7 @@ The website is managed via a command line interface (aliased in the `nmcli` exec
 
 ## Directory Structure and Control Flow
 
-Code that wraps program logic into these commands, as well as initialization code for connecting to the database, may be found in `bin/nmcli.ml`.
+Code that wraps program logic into these commands, as well as initialization code for connecting to the database, may be found in `cli/nmcli.ml`.
 
 The `assets` directory contains static assets served as part of the website; for now, this is just the SPA's generated dist code.
 

@@ -10,4 +10,4 @@ if [ "$1" = "run" ]; then
 fi
 
 
-./_build/default/bin/nmcli.exe "$@"
+./_build/default/cli/nmcli.exe "$@"
