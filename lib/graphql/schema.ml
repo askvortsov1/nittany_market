@@ -354,9 +354,9 @@ let schema =
                   arg "password" ~typ:(non_null string);
                 ]
             ~resolve:(fun info () email password ->
-              Lwt_result.ok (Util.login info.ctx email password));
+              Lwt_result.ok (Mutation.login info.ctx email password));
           io_field "logout" ~typ:(non_null bool) ~args:[]
-            ~resolve:(fun info () -> Lwt_result.ok (Util.logout info.ctx));
+            ~resolve:(fun info () -> Lwt_result.ok (Mutation.logout info.ctx));
           io_field "change_password" ~typ:(non_null bool)
             ~args:
               Arg.
@@ -366,7 +366,7 @@ let schema =
                 ]
             ~resolve:(fun info () old_password new_password ->
               Lwt_result.ok
-                (Util.change_password info.ctx old_password new_password));
+                (Mutation.change_password info.ctx old_password new_password));
           io_field "add_listing" ~typ:(non_null int)
             ~args:
               Arg.
@@ -382,7 +382,7 @@ let schema =
             ~resolve:
               (fun info () cat title name desc price quantity expires_at ->
               Lwt_result.ok
-                (Util.add_listing info.ctx cat title name desc price quantity
+                (Mutation.add_listing info.ctx cat title name desc price quantity
                    expires_at));
           io_field "update_listing" ~typ:(non_null int)
             ~args:
@@ -400,6 +400,6 @@ let schema =
             ~resolve:
               (fun info () id cat title name desc price quantity expires_at ->
               Lwt_result.ok
-                (Util.update_listing info.ctx id cat title name desc price quantity
+                (Mutation.update_listing info.ctx id cat title name desc price quantity
                    expires_at));
         ])
