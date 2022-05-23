@@ -9,7 +9,7 @@ let display_listings
   let%arr my_listings = my_listings in
   Vdom.Node.div
     [
-      Route.link_path_vdom "/add_listing"
+      Route.link_vdom "/add_listing"
         ~attrs:[ Vdom.Attr.classes [ "btn"; "btn-primary"; "mt-3" ] ] ~children:(Vdom.Node.text "Add Listing");
       Vdom.Node.hr ();
       (match my_listings with

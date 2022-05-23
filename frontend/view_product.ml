@@ -41,7 +41,7 @@ let product_listing_card
        | Some s -> Templates.bullet "Sold By" s.email
        | None -> Vdom.Node.none);
        Templates.bullet_vdom "Category"
-         (Route.link_path_vdom
+         (Route.link_vdom
             (Util.category_path listing.category_name)
             ~children:(Vdom.Node.text listing.category_name));
      ]
@@ -52,7 +52,7 @@ let product_listing_card
         Vdom.Node.h5 [ Vdom.Node.text "Seller Information" ];
         Templates.bullet "Expired?"
           (Bool.to_string (Util.listing_expired listing.expires_at));
-        Route.link_path_vdom (Util.edit_listing_path listing.id)
+        Route.link_vdom (Util.edit_listing_path listing.id)
           ~attrs:[Vdom.Attr.classes ["btn"; "btn-secondary"]]
           ~children:(Vdom.Node.text "Edit Listing");
       ]

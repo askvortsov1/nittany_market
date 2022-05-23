@@ -23,31 +23,31 @@ let logout_button =
 
 let component (u : G.Queries.UserFields.t Value.t) =
   let%sub home_link =
-    Route.link_path
+    Route.link
       ~children:(Bonsai.const @@ Vdom.Node.text "Home")
       ~attrs:[ Vdom.Attr.class_ "navbar-brand" ]
       (Value.return "/")
   in
   let%sub account_link =
-    Route.link_path
+    Route.link
       ~children:(Bonsai.const @@ Vdom.Node.text "My Account")
       ~attrs:[ Vdom.Attr.class_ "nav-link" ]
       (Value.return "/account")
   in
   let%sub browse_link =
-    Route.link_path
+    Route.link
       ~children:(Bonsai.const @@ Vdom.Node.text "Browse")
       ~attrs:[ Vdom.Attr.class_ "nav-link" ]
       (Value.return "/browse")
   in
   let%sub add_listing_link =
-    Route.link_path
+    Route.link
       ~children:(Bonsai.const @@ Vdom.Node.text "Add Listing")
       ~attrs:[ Vdom.Attr.class_ "nav-link" ]
       (Value.return "/add_listing")
   in
   let%sub my_listings_link =
-    Route.link_path
+    Route.link
       ~children:(Bonsai.const @@ Vdom.Node.text "My Listings")
       ~attrs:[ Vdom.Attr.class_ "nav-link" ]
       (Value.return "/my_listings")
