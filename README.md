@@ -96,6 +96,7 @@ A few particularly interesting pieces:
 
 Some reflections on OCaml and the libraries I used:
 
+- `Js_of_ocaml` output bundles for Bonsai are absolutely huge (>30MB for this project!). It makes sense given how much needs to be statically bundled, but I wonder if there's any way to further bind higher-level libraries to JS, or otherwise optimize down the bundle size. Unfortunately, this alone would probably disqualify Bonsai for consumer-facing websites.
 - The language server was struggling with heavy PPX use. I found myself very frequently running VSCode's "Restart Language Server" command, or pressing ctrl+S on already saved files to trigger a re-processing. Without this, I'd get `let%...` usage highlighted in red with "unrecognized syntax extension: ...", and intermediate "_weakxxx" types for local variables and function definitions.
 - For some reason, `graphql_ppx` failed to generate a fragment for the recursively-defined `category` object. I haven't confirmed whether this is necessarily caused by recursive GraphQL schemas though.
 - The lack of a `bind` operator for Bonsai computations made many otherwise-simple components very challenging, although I understand [why this is neccessary](https://github.com/janestreet/bonsai/blob/master/docs/blogs/why_no_bind.md).
@@ -105,4 +106,3 @@ Some reflections on OCaml and the libraries I used:
 - Unsurprisingly, most runtime errors came from the "edges" of OCaml: bindings to the browser, parsing/serializing of GraphQL requests to the server, and database calls. The OOP interfaces provided by `Js_of_ocaml` especially were confusing to use.
 - I look forward to seeing the `Bonsai` ecosystem grow: I think a major missing component is routing and more publically-available libraries with documentation. That being said, the core philosophy is simple, composable, safe, and extremely powerful.
 - Some `Bonsai` tools (`Var`, `Dynamic_scope`) were hard to understand with limited examples, and others (e.g. `Edge`, `state`) I wasn't aware of. I think Bonsai learnability would benefit greatly from expanded, updated public documentation.
-- `Js_of_ocaml` output bundles are absolutely huge (>30MB for this project!). It makes sense, but I wonder if there's any way to further bind higher-level libraries to JS, or otherwise optimize down the bundle size.
