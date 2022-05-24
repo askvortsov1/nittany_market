@@ -1,6 +1,6 @@
 open Lwt.Infix
 
-let url = Uri.of_string "http://localhost:8080/graphql"
+let url = Uri.of_string "/graphql"
 
 let string_of_sexp = Sexplib0.Sexp.to_string
 let sexp_of_string str = Sexplib0.Sexp.Atom str
