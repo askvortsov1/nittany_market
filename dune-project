@@ -20,7 +20,24 @@
  (allow_empty)
  (synopsis "A short synopsis")
  (description "A longer description")
- (depends ocaml dune)
+ (depends 
+   ocaml 
+   dune
+   lwt
+   dream
+   cmdliner
+   caqti-driver-sqlite3
+   argon2
+   csvfields
+   ppx_csv_conv
+   re
+   bonsai
+   graphql_ppx
+   ppx_yojson_conv_lib
+   jingoo
+   ppx_yojson_conv
+   cohttp-lwt-jsoo 
+ )
  (tags
   (topics "to describe" your project)))
 
